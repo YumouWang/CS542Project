@@ -49,15 +49,15 @@ public class PlayerParser {
 		                	if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 		                		int value = (int) cell.getNumericCellValue();
 		                		str[i] = Integer.toString(value);
-		                		System.out.print(value + ",  ");
+		                		//System.out.print(value + ",  ");
 		                	} else {
 		                		str[i] = cell.getStringCellValue();
-		                		System.out.print(str[i] + ",  --");
+		                		//System.out.print(str[i] + ",  ");
 		                	}
 		                	i++;
 		                }
 		            }
-		            System.out.println("");
+		            //System.out.println("");
 		            Player player = new Player(str[0], str[1], Integer.parseInt(str[2]), str[3], Integer.parseInt(str[4]), str[5], Integer.parseInt(str[6]));
 		            playerList.add(player);
 		        }
@@ -68,17 +68,4 @@ public class PlayerParser {
 		return playerList;
             
 	}
-	
-	public static void main(String[] args) {
-		PlayerParser excelParser = new PlayerParser();
-		excelParser.parse();
-		
-		for(Player player : excelParser.parse()) {
-			System.out.println(player.getName() + "," + player.getAge());
-			System.out.println("------------");
-		}
-		
-	}
-	
-
 }
