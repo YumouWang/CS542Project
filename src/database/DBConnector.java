@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class DBConnector {
 	private static DBConnector dbConnector;
-	private static String url = "jdbc:mysql://localhost:3306/cs542project";
+	private static String url = "jdbc:mysql://2012-20130817HC:3306/cs542project";
 	private static String user = "root";
 	private static String password = "123456";
 	private Connection conn = null;
