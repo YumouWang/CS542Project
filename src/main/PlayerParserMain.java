@@ -10,10 +10,8 @@ public class PlayerParserMain {
 		excelParser.parse();
 		
 		for(Player player : excelParser.parse()) {
-			System.out.println(player.getName() + "," + player.getAge());
-			
-		}
-		
+			System.out.println(player.getName() + "," + player.getAge());	
+		}	
 	}
 
 }
