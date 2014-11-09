@@ -7,11 +7,9 @@ public class PlayerParserMain {
 	
 	public static void main(String[] args) {
 		PlayerParser excelParser = new PlayerParser();
-		excelParser.parse();
 		
 		for(Player player : excelParser.parse()) {
 			System.out.println(player.getName() + "," + player.getAge());	
 		}	
 	}
-
 }

@@ -9,13 +9,13 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import entity.Player;
+import entity.Game;
 
-public class PlayerParser {
-	public ArrayList<Player> parse() {
-		ArrayList<Player> playerList = new ArrayList<Player>();
+public class GameParser {
+	public ArrayList<Game> parse() {
+		ArrayList<Game> gameList = new ArrayList<Game>();
 		try {
-			FileInputStream file = new FileInputStream(new File("datafiles/player.xlsx"));
+			FileInputStream file = new FileInputStream(new File("datafiles/game.xlsx"));
 			XSSFWorkbook workbook = new XSSFWorkbook(file);
 			
 			XSSFSheet sheet = workbook.getSheetAt(0);
@@ -47,22 +47,22 @@ public class PlayerParser {
 		                	if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 		                		int value = (int) cell.getNumericCellValue();
 		                		str[i] = Integer.toString(value);
-		                		//System.out.print(value + ",  ");
+//		                		System.out.print(value + ",  ");
 		                	} else {
 		                		str[i] = cell.getStringCellValue();
-		                		//System.out.print(str[i] + ",  ");
+//		                		System.out.print(str[i] + ",  ");
 		                	}
 		                	i++;
 		                }
 		            }
 		            //System.out.println("");
-		            Player player = new Player(str[0], str[1], Integer.parseInt(str[2]), str[3], Integer.parseInt(str[4]), str[5], Integer.parseInt(str[6]));
-		            playerList.add(player);
+		            Game game = new Game(Integer.parseInt(str[0]), str[1], str[2], str[3]);            
+		            gameList.add(game);
 		        }
 		    }
 		} catch(Exception e) {
 		    System.out.println(e);
 		}
-		return playerList;      
+		return gameList;          
 	}
 }
