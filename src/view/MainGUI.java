@@ -20,7 +20,7 @@ import controller.MouseController;
 
 public class MainGUI extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField textField;
 	private JButton btnSearch;
 	ButtonController buttonController;
