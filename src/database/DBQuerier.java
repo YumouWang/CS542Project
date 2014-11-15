@@ -86,7 +86,7 @@ public class DBQuerier {
 		if (str1 == null) {
 			return true;
 		} else {
-			if (str1.equalsIgnoreCase(str2)) {
+			if (str2.contains(str1)) {
 				return true;
 			} else {
 				return false;
