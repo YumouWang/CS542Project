@@ -1,11 +1,15 @@
 package view;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -22,15 +26,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import common.Constants;
 import common.Country;
 import common.PlayerHeight;
 import common.PlayerPosition;
+
 import database.DBQuerier;
 import entity.Player;
 
 public class PlayerSearchView extends JFrame {
 
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblName;
 	private JLabel lblPosition;
@@ -42,27 +48,22 @@ public class PlayerSearchView extends JFrame {
 	public Object[][] cellData;
 	private JTable table;
 	private JScrollPane scrollPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PlayerSearchView frame = new PlayerSearchView();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	public LaunchGUI launchGUI;
+	public JButton btnBack;
+	public CardLayout card;
+	public static JPanel container;
+	private List<Player> playerList;
 
 	/**
 	 * Create the frame.
 	 */
-	public PlayerSearchView() {
+	public PlayerSearchView(LaunchGUI launchGUI) {
+		this.launchGUI = launchGUI;
+		this.card = launchGUI.card;
+		this.container = launchGUI.container;
+
+		playerList = null;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 615, 465);
 		contentPane = new JPanel();
@@ -70,40 +71,43 @@ public class PlayerSearchView extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("Player Search", JLabel.CENTER);
-		lblNewLabel.setBounds(5, 5, 90, 20);
-		contentPane.add(lblNewLabel);
+		// JLabel lblNewLabel = new JLabel("Player Search", JLabel.CENTER);
+		// lblNewLabel.setBounds(5, 5, 90, 20);
+		// contentPane.add(lblNewLabel);
 
 		textField = new JTextField();
-		textField.setBounds(84, 40, 130, 20);
+		textField.setBounds(140, 40, 130, 20);
 		contentPane.add(textField);
 		textField.setColumns(10);
 
 		lblName = new JLabel("Name", JLabel.CENTER);
-		lblName.setBounds(25, 40, 49, 20);
+		lblName.setBounds(60, 40, 49, 20);
+		lblName.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblName);
 
 		lblPosition = new JLabel("Position", JLabel.CENTER);
-		lblPosition.setBounds(235, 40, 68, 20);
+		lblPosition.setBounds(295, 40, 68, 20);
+		lblPosition.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblPosition);
 
 		comboBoxPosition = new JComboBox<String>();
-		comboBoxPosition.setBounds(308, 40, 122, 20);
+		comboBoxPosition.setBounds(400, 40, 122, 20);
 		contentPane.add(comboBoxPosition);
 
 		comboBoxPosition.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { PlayerPosition.Any.name(),
 						PlayerPosition.Forward.name(),
-						PlayerPosition.Midfielder.name(),
+						PlayerPosition.Midfield.name(),
 						PlayerPosition.Defender.name(),
 						PlayerPosition.Goalkeeper.name() }));
 
 		JLabel label = new JLabel("Country", JLabel.CENTER);
-		label.setBounds(25, 80, 47, 20);
+		label.setBounds(60, 80, 60, 20);
+		label.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(label);
 
 		comboBoxCountry = new JComboBox<String>();
-		comboBoxCountry.setBounds(84, 80, 130, 21);
+		comboBoxCountry.setBounds(140, 80, 130, 21);
 		contentPane.add(comboBoxCountry);
 
 		comboBoxCountry.setModel(new javax.swing.DefaultComboBoxModel<String>(
@@ -120,11 +124,12 @@ public class PlayerSearchView extends JFrame {
 						Country.Wales.getCountryName() }));
 
 		lblHeight = new JLabel("Height(cm)", JLabel.CENTER);
-		lblHeight.setBounds(235, 80, 68, 20);
+		lblHeight.setBounds(295, 80, 90, 20);
+		lblHeight.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblHeight);
 
 		comboBoxHeight = new JComboBox<String>();
-		comboBoxHeight.setBounds(308, 80, 122, 21);
+		comboBoxHeight.setBounds(400, 80, 122, 21);
 		contentPane.add(comboBoxHeight);
 
 		comboBoxHeight.setModel(new javax.swing.DefaultComboBoxModel<String>(
@@ -137,68 +142,127 @@ public class PlayerSearchView extends JFrame {
 						PlayerHeight.Height6.getPlayerHeight() }));
 
 		lblAge = new JLabel("Age", JLabel.CENTER);
-		lblAge.setBounds(20, 120, 54, 15);
+		lblAge.setBounds(60, 120, 54, 15);
+		lblAge.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblAge);
 
 		JButton btnSearch = new JButton("Search");
-		btnSearch.setBounds(211, 156, 93, 23);
+		btnSearch.setBounds(235, 156, 93, 23);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(btnSearch);
-		
-		btnSearch.addActionListener(new ActionListener() {
+
+		btnBack = new JButton("Back");
+		btnBack.setBounds(20, 10, Constants.BUTTON_WIDTH - 80,
+				Constants.BUTTON_HEIGHT - 10);
+		btnBack.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		contentPane.add(btnBack);
+
+		btnBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String inputHeight = null;
-				int inputAge = 0;
-				String inputCountry = null;
-				String inputPosition = null;
-				String inputClub = null;
-				
-				if (comboBoxHeight.getSelectedItem() == PlayerHeight.Any) {
-					inputHeight = "";
-				} else {
-					inputHeight = comboBoxHeight.getSelectedItem().toString();
-				}
+				card.show(container, "" + 3);
+			}
+		});
 
-				if (comboBoxCountry.getSelectedItem() == Country.Any) {
-					inputCountry = "";
-				} else {
-					inputCountry = comboBoxCountry.getSelectedItem().toString();
-				}
-				
-				
-				DBQuerier dbQuerier = new DBQuerier();
-				List<Player> playerList = null;
-				try {
-					System.out.println("Height:" + inputHeight + ", Country:" + inputCountry);
-					playerList = dbQuerier.getPlayerData(textField.getText(),
-							null, 0, inputCountry, inputClub);
-//					playerList = dbQuerier.getPlayerData();
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				updateTable(playerList);
-				
-				for(Player player : playerList) {
-					System.out.println(player.getName() + "," + player.getClub());
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					searchPlayer();
 				}
 			}
 		});
 
+		btnSearch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchPlayer();
+			}
+		});
+
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(62, 189, 459, 212);
+		scrollPane.setBounds(60, 190, 470, 212);
 		contentPane.add(scrollPane);
 
 		table = setTable();
+		table.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 2) {
+					PlayerView playerView = new PlayerView();
+					// JTable table = null;
+					// table = (JTable) e.getSource();
+					int row = table.getSelectedRow();
+					if (table.getValueAt(row, 0) != null) {
+						String selectedPlayerName = table.getValueAt(row, 1)
+								.toString();
+						if (row > -1) {
+							for (Player player : playerList) {
+								if (player.getName().equalsIgnoreCase(
+										selectedPlayerName)) {
+									System.out.println(player.getClub() + ","
+											+ player.getName());
+									playerView.getTextFieldPlayerName()
+											.setText(player.getName());
+									playerView.getTextFieldAge().setText(
+											String.valueOf(player.getAge()));
+									playerView.getTextFieldPosition().setText(
+											player.getPosition());
+									playerView.getTextFieldClub().setText(
+											player.getClub());
+									playerView.getTextFieldHeight().setText(
+											String.valueOf(player.getHeight()));
+									playerView
+											.getTextFieldSquadNumber()
+											.setText(
+													String.valueOf(player
+															.getSquad_number()));
+									playerView.getTextFieldCountry().setText(
+											player.getCountry());
+									playerView.setVisible(true);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		scrollPane.setViewportView(table);
 	}
 
 	private JTable setTable() {
 		String[] columnNames = { "Club", "Player Name" };
-		cellData = new String[20][2];
+		cellData = new String[25][2];
 		int i;
-		for (i = 0; i < 20; i++) {
-			cellData[i][0] = "hehe";
-			cellData[i][1] = "1";
+		for (i = 0; i < 25; i++) {
+			cellData[i][0] = null;
+			cellData[i][1] = null;
 		}
 		DefaultTableModel model = new DefaultTableModel(cellData, columnNames) {
 			private static final long serialVersionUID = 1L;
@@ -228,10 +292,13 @@ public class PlayerSearchView extends JFrame {
 			}
 		};
 	}
-	
-	public void updateTable(Collection<Player> playerList) {
 
-		Collection<Player> result = playerList;
+	public void updateTable(List<Player> playerList) {
+
+		List<Player> result = playerList;
+		if (result.size() > 25) {
+			result = result.subList(0, 25);
+		}
 
 		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
 			this.table.setValueAt(null, rowNum, 0);
@@ -250,4 +317,49 @@ public class PlayerSearchView extends JFrame {
 		this.table.updateUI();
 		this.table.revalidate();
 	}
+
+	public void searchPlayer() {
+		String inputHeight = null;
+		int inputAge = 0;
+		String inputCountry = null;
+		String inputPosition = null;
+		String inputClub = null;
+
+		if (comboBoxPosition.getSelectedItem()
+				.equals(PlayerPosition.Any.name())) {
+			inputPosition = null;
+		} else {
+			inputPosition = comboBoxPosition.getSelectedItem().toString();
+		}
+
+		if (comboBoxHeight.getSelectedItem().equals(PlayerHeight.Any.name())) {
+			inputHeight = null;
+		} else {
+			inputHeight = comboBoxHeight.getSelectedItem().toString();
+		}
+
+		if (comboBoxCountry.getSelectedItem().equals(Country.Any.name())) {
+			inputCountry = null;
+		} else {
+			inputCountry = comboBoxCountry.getSelectedItem().toString();
+		}
+
+		DBQuerier dbQuerier = new DBQuerier();
+
+		try {
+			System.out.println("Height:" + inputHeight + ", Country:"
+					+ inputCountry);
+			playerList = dbQuerier.getPlayerData(textField.getText(),
+					inputPosition, 0, inputCountry, inputClub, inputHeight);
+			// playerList = dbQuerier.getPlayerData();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		updateTable(playerList);
+
+		for (Player player : playerList) {
+			System.out.println(player.getName() + "," + player.getClub());
+		}
+	}
+
 }

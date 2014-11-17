@@ -1,7 +1,7 @@
 package common;
 
 public class Constants {
-	
+
 	public static final int X = 100;
 	public static final int Y = 100;
 	public static final int PANEL_WIDTH = 615;

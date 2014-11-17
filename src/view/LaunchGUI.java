@@ -7,7 +7,9 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import common.Constants;
 
@@ -17,6 +19,7 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	public static JPanel container;
 	public static JPanel panel1;
 	public static JPanel panel2;
+	public JLabel label;
 	public JButton btAdmin;
 	public JButton btUser;
 	public JButton btSearchPlayer;
@@ -28,6 +31,8 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	 * Initialize the contents of the frame.
 	 */
 	public LaunchGUI() {
+		
+		setTitle("Version 1.0");
 
 		card = new CardLayout();
 		container = new JPanel();
@@ -36,16 +41,21 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		panel1.setLayout(null);
 		panel2 = new JPanel();
 		panel2.setLayout(null);
+		
+		label = new JLabel("Soccer player&club&game information and player rate system", SwingConstants.CENTER);
+		label.setBounds(30, 50, 550, 25);
+		label.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
+		panel1.add(label);
 
 		btAdmin = new JButton("Administrator");
 		btAdmin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btAdmin.setBounds(Constants.BUTTON_STARTX, 90, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
+		btAdmin.setBounds(Constants.BUTTON_STARTX, 150, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
 		panel1.add(btAdmin);
 		btAdmin.addMouseListener(this);
 		
 		btUser = new JButton("User");
 		btUser.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btUser.setBounds(Constants.BUTTON_STARTX, 150, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
+		btUser.setBounds(Constants.BUTTON_STARTX, 220, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
 		panel1.add(btUser);
 		btUser.addMouseListener(this);
 
@@ -67,9 +77,9 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		panel2.add(btViewGmResult);
 		btViewGmResult.addMouseListener(this);
 		
-		btBacktoPrev = new JButton ("Go Back");
+		btBacktoPrev = new JButton("Back");
+		btBacktoPrev.setBounds(20, 10, Constants.BUTTON_WIDTH - 80, Constants.BUTTON_HEIGHT - 10);
 		btBacktoPrev.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btBacktoPrev.setBounds(20, 20, 100, 32);
 		panel2.add(btBacktoPrev);
 		btBacktoPrev.addMouseListener(this);
 		
@@ -80,8 +90,11 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		container.add(panel1, "2");
 		container.add(panel2, "3");
 		
-		MainGUI mainGUI = new MainGUI();
-		container.add(mainGUI.contentPane, "4");
+		ClubSearchView clubSearchView = new ClubSearchView(this);
+		container.add(clubSearchView.contentPane, "4");
+		
+		PlayerSearchView playerSearchView = new PlayerSearchView(this);
+		container.add(playerSearchView.contentPane, "5");
 		card.show(container, "2");
 	}
 
@@ -104,11 +117,12 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		
 		if (e.getSource() == btSearchPlayer){
 			System.out.println("button Search Player pressed ");
-			card.show(container, "" + 4);
+			card.show(container, "" + 5);
 		}
 		
 		if (e.getSource() == btSearchClub){
 			System.out.println("button Search Club pressed ");
+			card.show(container, "" + 4);
 		}
 		
 		if (e.getSource() == btViewGmResult){

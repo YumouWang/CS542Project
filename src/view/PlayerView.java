@@ -100,7 +100,7 @@ public class PlayerView extends JFrame {
 	public PlayerView() {
 		setTitle("Player Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 391, 199);
+		setBounds(500, 200, 391, 199);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -126,7 +126,7 @@ public class PlayerView extends JFrame {
 		labelClub.setBounds(10, 90, 77, 21);
 		contentPane.add(labelClub);
 
-		JLabel labelHeight = new JLabel("Height", SwingConstants.CENTER);
+		JLabel labelHeight = new JLabel("Height(cm)", SwingConstants.CENTER);
 		labelHeight.setBounds(200, 90, 67, 21);
 		contentPane.add(labelHeight);
 

@@ -5,15 +5,15 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JTable;
 
-import view.MainGUI;
+import view.ClubSearchView;
 import view.PlayerView;
 import entity.Player;
 
 public class MouseController extends MouseAdapter {
-	MainGUI mainGUI;
+	ClubSearchView mainGUI;
 	ButtonController buttonController;
 
-	public MouseController(MainGUI mainGUI, ButtonController buttonController) {
+	public MouseController(ClubSearchView mainGUI, ButtonController buttonController) {
 		this.mainGUI = mainGUI;
 		this.buttonController = buttonController;
 	}
