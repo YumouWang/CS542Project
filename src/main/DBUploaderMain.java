@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import parser.ClubParser;
 import parser.PlayerParser;
 import database.DBUploader;
 import entity.Player;
@@ -14,6 +15,9 @@ public class DBUploaderMain {
 		DBUploader dbUploader = new DBUploader();
 		PlayerParser playerParser = new PlayerParser();
 		playerList = playerParser.parse();
+		
+		ClubParser clubParser = new ClubParser();
+		clubParser.parse();
 		
 		try {
 			dbUploader.insertPlayerData(playerList);

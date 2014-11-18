@@ -42,8 +42,8 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		panel2 = new JPanel();
 		panel2.setLayout(null);
 		
-		label = new JLabel("Soccer player&club&game information and player rate system", SwingConstants.CENTER);
-		label.setBounds(30, 50, 550, 25);
+		label = new JLabel("Soccer Player&Club&Game Information And Player Rate System", SwingConstants.CENTER);
+		label.setBounds(20, 50, 550, 25);
 		label.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
 		panel1.add(label);
 

@@ -32,7 +32,7 @@ public class GameParser {
 		        row = sheet.getRow(i);
 		        if(row != null) {
 		            tmp = sheet.getRow(i).getPhysicalNumberOfCells();
-		            if(tmp > cols) cols = tmp;
+		            if(tmp > cols) cols = tmp - 1;
 		        }
 		    }
 		    

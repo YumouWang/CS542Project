@@ -14,5 +14,4 @@ public enum PlayerHeight {
 	public String getPlayerHeight() {
 		return playerHeight;
 	}
-
 }

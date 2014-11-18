@@ -32,7 +32,7 @@ public class ClubParser {
 		        row = sheet.getRow(i);
 		        if(row != null) {
 		            tmp = sheet.getRow(i).getPhysicalNumberOfCells();
-		            if(tmp > cols) cols = tmp;
+		            if(tmp > cols) cols = tmp - 1;
 		        }
 		    }
 		    
@@ -42,20 +42,21 @@ public class ClubParser {
 		        int i = 0;
 		        if(row != null) {
 		            for(int c = 0; c < cols; c++) {
+		            	System.out.println("cols" + cols);
 		                cell = row.getCell((int)c);
 		                if(cell != null) {
 		                	if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 		                		int value = (int) cell.getNumericCellValue();
 		                		str[i] = Integer.toString(value);
-//		                		System.out.print(value + ",  ");
+		                		System.out.print(value + ",  ");
 		                	} else {
 		                		str[i] = cell.getStringCellValue();
-//		                		System.out.print(str[i] + ",  ");
+		                		System.out.print(str[i] + ",  ");
 		                	}
 		                	i++;
 		                }
 		            }
-		            //System.out.println("");
+		            System.out.println("");
 		            Club club = new Club(str[0], str[1], str[2], Integer.parseInt(str[3]));            
 		            clubList.add(club);
 		        }

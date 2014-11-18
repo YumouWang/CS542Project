@@ -26,11 +26,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import common.Club;
 import common.Constants;
 import common.Country;
+import common.PlayerAge;
 import common.PlayerHeight;
 import common.PlayerPosition;
-
 import database.DBQuerier;
 import entity.Player;
 
@@ -44,7 +45,10 @@ public class PlayerSearchView extends JFrame {
 	private JComboBox<String> comboBoxCountry;
 	private JLabel lblHeight;
 	private JComboBox<String> comboBoxHeight;
+	private JComboBox<String> comboBoxAge;
 	private JLabel lblAge;
+	private JLabel lblClub;
+	private JComboBox<String> comboBoxClub;
 	public Object[][] cellData;
 	private JTable table;
 	private JScrollPane scrollPane;
@@ -91,7 +95,7 @@ public class PlayerSearchView extends JFrame {
 		contentPane.add(lblPosition);
 
 		comboBoxPosition = new JComboBox<String>();
-		comboBoxPosition.setBounds(400, 40, 122, 20);
+		comboBoxPosition.setBounds(400, 40, 130, 20);
 		contentPane.add(comboBoxPosition);
 
 		comboBoxPosition.setModel(new javax.swing.DefaultComboBoxModel<String>(
@@ -129,7 +133,7 @@ public class PlayerSearchView extends JFrame {
 		contentPane.add(lblHeight);
 
 		comboBoxHeight = new JComboBox<String>();
-		comboBoxHeight.setBounds(400, 80, 122, 21);
+		comboBoxHeight.setBounds(400, 80, 130, 21);
 		contentPane.add(comboBoxHeight);
 
 		comboBoxHeight.setModel(new javax.swing.DefaultComboBoxModel<String>(
@@ -145,6 +149,32 @@ public class PlayerSearchView extends JFrame {
 		lblAge.setBounds(60, 120, 54, 15);
 		lblAge.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblAge);
+		
+		comboBoxAge = new JComboBox<String>();
+		comboBoxAge.setBounds(140, 120, 130, 21);
+		contentPane.add(comboBoxAge);
+
+		comboBoxAge.setModel(new javax.swing.DefaultComboBoxModel<String>(
+				new String[] { PlayerAge.Any.getPlayerAge(),
+						PlayerAge.Age1.getPlayerAge(),
+						PlayerAge.Age2.getPlayerAge(),
+						PlayerAge.Age3.getPlayerAge(),
+						PlayerAge.Age4.getPlayerAge(),
+						PlayerAge.Age5.getPlayerAge() }));
+		
+		lblClub = new JLabel("Club", JLabel.CENTER);
+		lblClub.setBounds(295, 120, 70, 20);
+		lblClub.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		contentPane.add(lblClub);
+
+		comboBoxClub = new JComboBox<String>();
+		comboBoxClub.setBounds(400, 120, 130, 21);
+		contentPane.add(comboBoxClub);
+
+		comboBoxClub.setModel(new javax.swing.DefaultComboBoxModel<String>(
+				new String[] { "Any",
+								"Real Madrid",
+								"Liverpool" }));
 
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(235, 156, 93, 23);
@@ -200,27 +230,27 @@ public class PlayerSearchView extends JFrame {
 								.toString();
 						if (row > -1) {
 							for (Player player : playerList) {
-								if (player.getName().equalsIgnoreCase(
+								if (player.getName().trim().equalsIgnoreCase(
 										selectedPlayerName)) {
 									System.out.println(player.getClub() + ","
 											+ player.getName());
 									playerView.getTextFieldPlayerName()
-											.setText(player.getName());
+											.setText(player.getName().trim());
 									playerView.getTextFieldAge().setText(
-											String.valueOf(player.getAge()));
+											String.valueOf(player.getAge()).trim());
 									playerView.getTextFieldPosition().setText(
-											player.getPosition());
+											player.getPosition().trim());
 									playerView.getTextFieldClub().setText(
-											player.getClub());
+											player.getClub().trim());
 									playerView.getTextFieldHeight().setText(
-											String.valueOf(player.getHeight()));
+											String.valueOf(player.getHeight()).trim());
 									playerView
 											.getTextFieldSquadNumber()
 											.setText(
 													String.valueOf(player
-															.getSquad_number()));
+															.getSquad_number()).trim());
 									playerView.getTextFieldCountry().setText(
-											player.getCountry());
+											player.getCountry().trim());
 									playerView.setVisible(true);
 								}
 							}
@@ -310,8 +340,8 @@ public class PlayerSearchView extends JFrame {
 		for (Player player : result) {
 			// cellData[i][0] = word.getValue();
 			// cellData[i][1] = ((Word) word).getType().toString();
-			this.table.setValueAt(player.getClub().toString(), i, 0);
-			this.table.setValueAt(player.getName().toString(), i, 1);
+			this.table.setValueAt(player.getClub().toString().trim(), i, 0);
+			this.table.setValueAt(player.getName().toString().trim(), i, 1);
 			i++;
 		}
 		this.table.updateUI();
@@ -320,7 +350,7 @@ public class PlayerSearchView extends JFrame {
 
 	public void searchPlayer() {
 		String inputHeight = null;
-		int inputAge = 0;
+		String inputAge = null;
 		String inputCountry = null;
 		String inputPosition = null;
 		String inputClub = null;
@@ -343,6 +373,19 @@ public class PlayerSearchView extends JFrame {
 		} else {
 			inputCountry = comboBoxCountry.getSelectedItem().toString();
 		}
+		
+		if (comboBoxAge.getSelectedItem()
+				.equals(PlayerAge.Any.name())) {
+			inputAge = null;
+		} else {
+			inputAge = comboBoxAge.getSelectedItem().toString();
+		}
+		
+		if (comboBoxClub.getSelectedItem().equals(Club.Any.getClubName())) {
+			inputClub = null;
+		} else {
+			inputClub = comboBoxClub.getSelectedItem().toString();
+		}
 
 		DBQuerier dbQuerier = new DBQuerier();
 
@@ -350,7 +393,7 @@ public class PlayerSearchView extends JFrame {
 			System.out.println("Height:" + inputHeight + ", Country:"
 					+ inputCountry);
 			playerList = dbQuerier.getPlayerData(textField.getText(),
-					inputPosition, 0, inputCountry, inputClub, inputHeight);
+					inputPosition, inputAge, inputCountry, inputClub, inputHeight);
 			// playerList = dbQuerier.getPlayerData();
 		} catch (SQLException e1) {
 			e1.printStackTrace();

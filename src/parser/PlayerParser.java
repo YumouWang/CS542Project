@@ -32,30 +32,32 @@ public class PlayerParser {
 		        row = sheet.getRow(i);
 		        if(row != null) {
 		            tmp = sheet.getRow(i).getPhysicalNumberOfCells();
-		            if(tmp > cols) cols = tmp;
+		            if(tmp > cols) cols = tmp - 1;
 		        }
 		    }
 		    
 		    for(int r = 1; r < rows; r++) {
+		    	System.out.println("Row:" + rows);
 		    	String[] str = new String[7];
 		        row = sheet.getRow(r);
 		        int i = 0;
 		        if(row != null) {
 		            for(int c = 0; c < cols; c++) {
+		            	System.out.println("cols:" + cols);
 		                cell = row.getCell((int)c);
 		                if(cell != null) {
 		                	if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 		                		int value = (int) cell.getNumericCellValue();
 		                		str[i] = Integer.toString(value);
-		                		//System.out.print(value + ",  ");
+		                		System.out.print(value + ",  ");
 		                	} else {
 		                		str[i] = cell.getStringCellValue();
-		                		//System.out.print(str[i] + ",  ");
+		                		System.out.print(str[i] + ",  ");
 		                	}
 		                	i++;
 		                }
 		            }
-		            //System.out.println("");
+		            System.out.println("");
 		            Player player = new Player(str[0], str[1], Integer.parseInt(str[2]), str[3], Integer.parseInt(str[4]), str[5], Integer.parseInt(str[6]));
 		            playerList.add(player);
 		        }
