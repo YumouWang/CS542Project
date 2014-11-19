@@ -95,6 +95,9 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		
 		PlayerSearchView playerSearchView = new PlayerSearchView(this);
 		container.add(playerSearchView.contentPane, "5");
+		
+		GameView gameView = new GameView(this);
+		container.add(gameView.contentPane, "6");
 		card.show(container, "2");
 	}
 
@@ -127,6 +130,7 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		
 		if (e.getSource() == btViewGmResult){
 			System.out.println("button View Game Result pressed ");
+			card.show(container, "" + 6);
 		}
 	}
 

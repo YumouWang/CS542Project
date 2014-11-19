@@ -7,7 +7,6 @@ public class Game {
 	String date;
 	
 	public Game(int gameId, String homeTeam, String awayTeam, String date) {
-		super();
 		this.gameId = gameId;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;

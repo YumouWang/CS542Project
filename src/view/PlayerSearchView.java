@@ -116,15 +116,22 @@ public class PlayerSearchView extends JFrame {
 
 		comboBoxCountry.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { Country.Any.getCountryName(),
+						Country.Australia.getCountryName(),
+						Country.Belgium.getCountryName(), 
 						Country.Brazil.getCountryName(),
-						Country.Colombia.name(),
+						Country.Colombia.name(),					
 						Country.Costa_Rica.getCountryName(),
+						Country.Cote_dIvoire.getCountryName(),
 						Country.Croatia.getCountryName(),
+						Country.England.getCountryName(),
 						Country.France.getCountryName(),
 						Country.Germany.getCountryName(),
+						Country.Italy.getCountryName(),
 						Country.Mexico.getCountryName(),
 						Country.Portugal.getCountryName(),
-						Country.Spain.getCountryName(),
+						Country.Serbia.getCountryName(),
+						Country.Slovakia.getCountryName(),
+						Country.Spain.getCountryName(),							
 						Country.Wales.getCountryName() }));
 
 		lblHeight = new JLabel("Height(cm)", JLabel.CENTER);

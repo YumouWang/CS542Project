@@ -177,6 +177,26 @@ public class DBQuerier {
 		}
 		return club;
 	}
+	
+	public int getGameId(String homeTeam, String awayTeam, String gamedate) {
+		return 1;
+	}
+	
+	public ResultSet getTeamDataByGameId(int id, String team) throws SQLException {
+		Club club = null;
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select * from teamPerformance where gameId = ? and team = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setInt(1, id);
+		pstatement.setString(2, team);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		if (rs.next()) {
+			
+		}
+		return rs;
+	}
 
 	public boolean isEqual(String str1, String str2) {
 		if (str1 == null) {

@@ -6,21 +6,21 @@ import java.sql.DriverManager;
 public class DBConnector {
 	private static DBConnector dbConnector;
 //	private static String url = "jdbc:mysql://localhost:3306/cs542project";
-//	private static String url = "jdbc:mysql://localhost:3306/cs542project";
-//	
-//	private static String user = "root";
-//	private static String password = "123456";
+	private static String url = "jdbc:mysql://localhost:3306/cs542project";
 	
-	private static String url = "jdbc:oracle:thin:@oracle.wpi.edu:1521:wpi11grxx";
-	private static String user = "yling";
-	private static String password = "YLING";
+	private static String user = "root";
+	private static String password = "123456";
+	
+//	private static String url = "jdbc:oracle:thin:@oracle.wpi.edu:1521:wpi11grxx";
+//	private static String user = "yling";
+//	private static String password = "YLING";
 	
 	private Connection conn = null;
 
 	private DBConnector() {
 		try {
-//			Class.forName("com.mysql.jdbc.Driver");
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("com.mysql.jdbc.Driver");
+//			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(url, user, password);
 		} catch (Exception e) {
 			e.printStackTrace();
