@@ -35,7 +35,7 @@ public class ClubSearchView extends JFrame {
 	public static JPanel container;
 	public JButton btnBack;
 	public JPanel panel;
-	LaunchGUI launchGUI;
+	public LaunchGUI launchGUI;
 	public JLabel label;
 	private JLabel labelClubName;
 	private JLabel labelHomeStadium;

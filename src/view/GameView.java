@@ -112,7 +112,7 @@ public class GameView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GameView(LaunchGUI launchGUI) {
+	public GameView(final LaunchGUI launchGUI) {
 		this.launchGUI = launchGUI;
 		this.card = launchGUI.card;
 		this.container = launchGUI.container;
@@ -200,6 +200,7 @@ public class GameView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				card.show(container, "" + 3);
+				launchGUI.setTitle("Version 1.0");
 			}
 		});
 		

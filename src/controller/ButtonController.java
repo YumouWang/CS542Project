@@ -76,6 +76,7 @@ public class ButtonController implements ActionListener {
 			clickedButton = (JButton) e.getSource();
 			if (clickedButton.equals(clubSearchView.btnBack)) {
 				clubSearchView.card.show(ClubSearchView.container, "" + 3);
+				clubSearchView.launchGUI.setTitle("Version 1.0");
 			}
 		}
 

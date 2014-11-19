@@ -121,16 +121,19 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		if (e.getSource() == btSearchPlayer){
 			System.out.println("button Search Player pressed ");
 			card.show(container, "" + 5);
+			this.setTitle("Player Search");
 		}
 		
 		if (e.getSource() == btSearchClub){
 			System.out.println("button Search Club pressed ");
 			card.show(container, "" + 4);
+			this.setTitle("Club Search");
 		}
 		
 		if (e.getSource() == btViewGmResult){
 			System.out.println("button View Game Result pressed ");
 			card.show(container, "" + 6);
+			this.setTitle("Game Result");
 		}
 	}
 

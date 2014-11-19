@@ -61,7 +61,7 @@ public class PlayerSearchView extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PlayerSearchView(LaunchGUI launchGUI) {
+	public PlayerSearchView(final LaunchGUI launchGUI) {
 		this.launchGUI = launchGUI;
 		this.card = launchGUI.card;
 		this.container = launchGUI.container;
@@ -197,6 +197,7 @@ public class PlayerSearchView extends JFrame {
 		btnBack.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				launchGUI.setTitle("Version 1.0");
 				card.show(container, "" + 3);
 			}
 		});
