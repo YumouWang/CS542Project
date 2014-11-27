@@ -2,7 +2,6 @@ package view;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -19,11 +18,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import common.Constants;
+
 import controller.ButtonController;
 import controller.MouseController;
 
 public class ClubSearchView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
 	public JTextField textField;
 	private JButton btnSearch;
@@ -99,7 +103,7 @@ public class ClubSearchView extends JFrame {
 		
 		this.launchGUI = launchGUI;
 		this.card = launchGUI.card;
-		this.container = launchGUI.container;
+		ClubSearchView.container = LaunchGUI.container;
 //		card = new CardLayout();
 //		container = new JPanel();
 //		container.setLayout(card);
@@ -259,5 +263,34 @@ public class ClubSearchView extends JFrame {
 
 	public JTable getTable() {
 		return table;
+	}
+	
+	public void updatable() {
+		btnUpdate.setVisible(true);
+		textFieldClubName.setEditable(true);
+		textFieldHomeStaduim.setEditable(true);
+		textFieldCoach.setEditable(true);
+		textFieldRanking.setEditable(true);
+	}
+	
+	public void unUpdatable() {
+		btnUpdate.setVisible(false);
+		textFieldClubName.setEditable(false);
+		textFieldHomeStaduim.setEditable(false);
+		textFieldCoach.setEditable(false);
+		textFieldRanking.setEditable(false);
+	}
+	
+	public void clear() {
+		textField.setText(null);
+		textFieldClubName.setText(null);
+		textFieldHomeStaduim.setText(null);
+		textFieldCoach.setText(null);
+		textFieldRanking.setText(null);
+		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
+			this.getTable().setValueAt(null, rowNum, 0);
+			this.getTable().setValueAt(null, rowNum, 1);
+			this.getTable().updateUI();
+		}
 	}
 }

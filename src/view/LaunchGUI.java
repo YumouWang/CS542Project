@@ -11,10 +11,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import view.ClubSearchView;
+import view.GameView;
+import view.LoginView;
+import view.PlayerSearchView;
+
 import common.Constants;
 
 public class LaunchGUI extends JFrame implements MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public CardLayout card;
 	public static JPanel container;
 	public static JPanel panel1;
@@ -26,6 +35,11 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	public JButton btSearchClub;
 	public JButton btViewGmResult;
 	public JButton btBacktoPrev;
+	public ClubSearchView clubSearchView;
+	public GameView gameView;
+	public PlayerSearchView playerSearchView;
+	
+	LoginView loginView;
 
 	/**
 	 * Initialize the contents of the frame.
@@ -90,14 +104,18 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		container.add(panel1, "2");
 		container.add(panel2, "3");
 		
-		ClubSearchView clubSearchView = new ClubSearchView(this);
+		clubSearchView = new ClubSearchView(this);
 		container.add(clubSearchView.contentPane, "4");
 		
-		PlayerSearchView playerSearchView = new PlayerSearchView(this);
+		playerSearchView = new PlayerSearchView(this);
 		container.add(playerSearchView.contentPane, "5");
 		
-		GameView gameView = new GameView(this);
+		gameView = new GameView(this);
 		container.add(gameView.contentPane, "6");
+			
+		this.loginView = new LoginView(this);
+		container.add(loginView.contentPane, "7");
+		
 		card.show(container, "2");
 	}
 
@@ -105,12 +123,19 @@ public class LaunchGUI extends JFrame implements MouseListener {
 
 		if (e.getSource() == btAdmin) {
 			System.out.println("button Admin pressed ");
-			card.show(container, "" + 3);
+			loginView.textField_1.setText("");
+			loginView.textField_2.setText("");
+//			JOptionPane.showMessageDialog(null,  "User name and password do"
+//                    + " not match!","ALERT!",
+//                    JOptionPane.ERROR_MESSAGE);		
+			card.show(container, "" + 7);
 		}
 
 		if (e.getSource() == btUser) {
 			System.out.println("button User pressed ");
 			card.show(container, "" + 3);
+			this.clubSearchView.unUpdatable();
+			this.clubSearchView.clear();
 		}
 		
 		if (e.getSource() == btBacktoPrev) {
@@ -170,6 +195,4 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		launchGUI.add(container);
 		launchGUI.setVisible(true);
 	}
-
-
 }

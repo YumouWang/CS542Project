@@ -32,11 +32,16 @@ import common.Country;
 import common.PlayerAge;
 import common.PlayerHeight;
 import common.PlayerPosition;
+
 import database.DBQuerier;
 import entity.Player;
 
 public class PlayerSearchView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblName;
@@ -51,7 +56,6 @@ public class PlayerSearchView extends JFrame {
 	private JComboBox<String> comboBoxClub;
 	public Object[][] cellData;
 	private JTable table;
-	private JScrollPane scrollPane;
 	public LaunchGUI launchGUI;
 	public JButton btnBack;
 	public CardLayout card;
@@ -64,7 +68,7 @@ public class PlayerSearchView extends JFrame {
 	public PlayerSearchView(final LaunchGUI launchGUI) {
 		this.launchGUI = launchGUI;
 		this.card = launchGUI.card;
-		this.container = launchGUI.container;
+		PlayerSearchView.container = LaunchGUI.container;
 
 		playerList = null;
 

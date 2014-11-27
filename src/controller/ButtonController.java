@@ -69,14 +69,16 @@ public class ButtonController implements ActionListener {
 				}
 				updateTable(playerList);
 			}
-		}
-
-		if (e.getSource() instanceof JButton) {
+			
 			// click on Back button
 			clickedButton = (JButton) e.getSource();
 			if (clickedButton.equals(clubSearchView.btnBack)) {
 				clubSearchView.card.show(ClubSearchView.container, "" + 3);
 				clubSearchView.launchGUI.setTitle("Version 1.0");
+			}
+			
+			if (clickedButton.equals(clubSearchView.getBtnUpdate())) {
+				System.out.println("Update!!!");
 			}
 		}
 

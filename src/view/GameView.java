@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -10,22 +9,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import common.Constants;
-import common.Country;
-
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-
 import database.DBQuerier;
 
 public class GameView extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public JPanel contentPane;
 	private JLabel lblSearchGame;
 	private JLabel lblHomeTeam;
@@ -39,7 +39,6 @@ public class GameView extends JFrame {
 	private JLabel lbl4;
 	private JLabel lbl5;
 	private JLabel lbl6;
-	private JLabel lbl7;
 	private JLabel lbl8;
 	private JLabel lbl9;
 	private JLabel lbl10;
@@ -82,9 +81,9 @@ public class GameView extends JFrame {
 	public JLabel lblRight15;
 	
 	
-	private JComboBox comboBoxHomeTeam;
-	private JComboBox comboBoxAwayTeam;
-	private JComboBox comboBoxDate;
+	private JComboBox<String> comboBoxHomeTeam;
+	private JComboBox<String> comboBoxAwayTeam;
+	private JComboBox<String> comboBoxDate;
 	private JButton btnSearch;
 	private JButton btnBack;
 	
@@ -115,7 +114,7 @@ public class GameView extends JFrame {
 	public GameView(final LaunchGUI launchGUI) {
 		this.launchGUI = launchGUI;
 		this.card = launchGUI.card;
-		this.container = launchGUI.container;
+		GameView.container = LaunchGUI.container;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(Constants.X, Constants.Y, Constants.PANEL_WIDTH, Constants.PANEL_HEIGHT);
@@ -224,19 +223,19 @@ public class GameView extends JFrame {
 		lblDate.setBounds(430, 40, 125, 32);
 		contentPane.add(lblDate);
 		
-		comboBoxHomeTeam = new JComboBox();
+		comboBoxHomeTeam = new JComboBox<String>();
 		comboBoxHomeTeam.setBounds(160, 70, 103, 21);
 		contentPane.add(comboBoxHomeTeam);
 		comboBoxHomeTeam.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { null, "Liverpool"}));
 		
-		comboBoxAwayTeam = new JComboBox();
+		comboBoxAwayTeam = new JComboBox<String>();
 		comboBoxAwayTeam.setBounds(300, 70, 103, 21);
 		comboBoxAwayTeam.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { null, "Real Madrid"}));
 		contentPane.add(comboBoxAwayTeam);
 		
-		comboBoxDate = new JComboBox();
+		comboBoxDate = new JComboBox<String>();
 		comboBoxDate.setBounds(440, 70, 103, 21);
 		contentPane.add(comboBoxDate);
 		
