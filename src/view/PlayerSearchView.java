@@ -121,9 +121,9 @@ public class PlayerSearchView extends JFrame {
 		comboBoxCountry.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { Country.Any.getCountryName(),
 						Country.Australia.getCountryName(),
-						Country.Belgium.getCountryName(), 
+						Country.Belgium.getCountryName(),
 						Country.Brazil.getCountryName(),
-						Country.Colombia.name(),					
+						Country.Colombia.name(),
 						Country.Costa_Rica.getCountryName(),
 						Country.Cote_dIvoire.getCountryName(),
 						Country.Croatia.getCountryName(),
@@ -135,7 +135,7 @@ public class PlayerSearchView extends JFrame {
 						Country.Portugal.getCountryName(),
 						Country.Serbia.getCountryName(),
 						Country.Slovakia.getCountryName(),
-						Country.Spain.getCountryName(),							
+						Country.Spain.getCountryName(),
 						Country.Wales.getCountryName() }));
 
 		lblHeight = new JLabel("Height(cm)", JLabel.CENTER);
@@ -160,7 +160,7 @@ public class PlayerSearchView extends JFrame {
 		lblAge.setBounds(60, 120, 54, 15);
 		lblAge.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(lblAge);
-		
+
 		comboBoxAge = new JComboBox<String>();
 		comboBoxAge.setBounds(140, 120, 130, 21);
 		contentPane.add(comboBoxAge);
@@ -172,7 +172,7 @@ public class PlayerSearchView extends JFrame {
 						PlayerAge.Age3.getPlayerAge(),
 						PlayerAge.Age4.getPlayerAge(),
 						PlayerAge.Age5.getPlayerAge() }));
-		
+
 		lblClub = new JLabel("Club", JLabel.CENTER);
 		lblClub.setBounds(295, 120, 70, 20);
 		lblClub.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
@@ -183,9 +183,7 @@ public class PlayerSearchView extends JFrame {
 		contentPane.add(comboBoxClub);
 
 		comboBoxClub.setModel(new javax.swing.DefaultComboBoxModel<String>(
-				new String[] { "Any",
-								"Real Madrid",
-								"Liverpool" }));
+				new String[] { "Any", "Real Madrid", "Liverpool" }));
 
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(235, 156, 93, 23);
@@ -242,25 +240,28 @@ public class PlayerSearchView extends JFrame {
 								.toString();
 						if (row > -1) {
 							for (Player player : playerList) {
-								if (player.getName().trim().equalsIgnoreCase(
-										selectedPlayerName)) {
+								if (player.getName().trim()
+										.equalsIgnoreCase(selectedPlayerName)) {
 									System.out.println(player.getClub() + ","
 											+ player.getName());
 									playerView.getTextFieldPlayerName()
 											.setText(player.getName().trim());
 									playerView.getTextFieldAge().setText(
-											String.valueOf(player.getAge()).trim());
+											String.valueOf(player.getAge())
+													.trim());
 									playerView.getTextFieldPosition().setText(
 											player.getPosition().trim());
 									playerView.getTextFieldClub().setText(
 											player.getClub().trim());
 									playerView.getTextFieldHeight().setText(
-											String.valueOf(player.getHeight()).trim());
+											String.valueOf(player.getHeight())
+													.trim());
 									playerView
 											.getTextFieldSquadNumber()
 											.setText(
-													String.valueOf(player
-															.getSquad_number()).trim());
+													String.valueOf(
+															player.getSquad_number())
+															.trim());
 									playerView.getTextFieldCountry().setText(
 											player.getCountry().trim());
 									playerView.setVisible(true);
@@ -385,14 +386,13 @@ public class PlayerSearchView extends JFrame {
 		} else {
 			inputCountry = comboBoxCountry.getSelectedItem().toString();
 		}
-		
-		if (comboBoxAge.getSelectedItem()
-				.equals(PlayerAge.Any.name())) {
+
+		if (comboBoxAge.getSelectedItem().equals(PlayerAge.Any.name())) {
 			inputAge = null;
 		} else {
 			inputAge = comboBoxAge.getSelectedItem().toString();
 		}
-		
+
 		if (comboBoxClub.getSelectedItem().equals(Club.Any.getClubName())) {
 			inputClub = null;
 		} else {
@@ -405,7 +405,8 @@ public class PlayerSearchView extends JFrame {
 			System.out.println("Height:" + inputHeight + ", Country:"
 					+ inputCountry);
 			playerList = dbQuerier.getPlayerData(textField.getText(),
-					inputPosition, inputAge, inputCountry, inputClub, inputHeight);
+					inputPosition, inputAge, inputCountry, inputClub,
+					inputHeight);
 			// playerList = dbQuerier.getPlayerData();
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -417,4 +418,16 @@ public class PlayerSearchView extends JFrame {
 		}
 	}
 
+	public void clear() {
+		textField.setText(null);;
+		comboBoxPosition.setSelectedIndex(0);
+		comboBoxCountry.setSelectedIndex(0);
+		comboBoxHeight.setSelectedIndex(0);
+		comboBoxAge.setSelectedIndex(0);
+		comboBoxClub.setSelectedIndex(0);
+		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
+			this.table.setValueAt(null, rowNum, 0);
+			this.table.setValueAt(null, rowNum, 1);
+		}
+	}
 }

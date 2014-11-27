@@ -153,7 +153,9 @@ public class LoginView extends JFrame {
 					"! You have successfully logged in.", "Login",
 					JOptionPane.INFORMATION_MESSAGE);
 			card.show(container, "" + 3);
-			this.launchGUI.clubSearchView.updatable();
+			this.launchGUI.clubSearchView.updatable();;
+			this.launchGUI.clubSearchView.clear();
+			this.launchGUI.playerSearchView.clear();
 			launchGUI.setTitle("Version 1.0");
 			
 		} else {

@@ -470,7 +470,10 @@ public class GameView extends JFrame {
 		lblRight14.setBounds(460, 390, 65, 20);
 		lblRight14.setHorizontalAlignment(JTextField.CENTER);
 		contentPane.add(lblRight14);
-
+	
+	}
+	
+	public void clear() {
 		
 		
 	}

@@ -136,6 +136,7 @@ public class LaunchGUI extends JFrame implements MouseListener {
 			card.show(container, "" + 3);
 			this.clubSearchView.unUpdatable();
 			this.clubSearchView.clear();
+			this.playerSearchView.clear();
 		}
 		
 		if (e.getSource() == btBacktoPrev) {
