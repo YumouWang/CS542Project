@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,7 +33,6 @@ import common.Country;
 import common.PlayerAge;
 import common.PlayerHeight;
 import common.PlayerPosition;
-
 import database.DBQuerier;
 import entity.Player;
 
@@ -231,7 +231,13 @@ public class PlayerSearchView extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if (e.getClickCount() == 2) {
-					PlayerView playerView = new PlayerView();
+					PlayerView playerView = null;
+					try {
+						playerView = new PlayerView();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					// JTable table = null;
 					// table = (JTable) e.getSource();
 					int row = table.getSelectedRow();
@@ -244,26 +250,8 @@ public class PlayerSearchView extends JFrame {
 										.equalsIgnoreCase(selectedPlayerName)) {
 									System.out.println(player.getClub() + ","
 											+ player.getName());
-									playerView.getTextFieldPlayerName()
-											.setText(player.getName().trim());
-									playerView.getTextFieldAge().setText(
-											String.valueOf(player.getAge())
-													.trim());
-									playerView.getTextFieldPosition().setText(
-											player.getPosition().trim());
-									playerView.getTextFieldClub().setText(
-											player.getClub().trim());
-									playerView.getTextFieldHeight().setText(
-											String.valueOf(player.getHeight())
-													.trim());
-									playerView
-											.getTextFieldSquadNumber()
-											.setText(
-													String.valueOf(
-															player.getSquad_number())
-															.trim());
-									playerView.getTextFieldCountry().setText(
-											player.getCountry().trim());
+									playerView.setPlayerView(player);
+									playerView.addPicture(player.getName());
 									playerView.setVisible(true);
 								}
 							}

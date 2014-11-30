@@ -1,13 +1,22 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
+import entity.Player;
 
 public class PlayerView extends JFrame {
 
@@ -22,6 +31,8 @@ public class PlayerView extends JFrame {
 	private JTextField textFieldCountry;
 	private JTextField textFieldClub;
 	private JTextField textFieldHeight;
+	private JTextField textFieldSquadNumber;
+	private JLabel picLabel;
 
 	/**
 	 * @return the textFieldPlayerName
@@ -80,7 +91,7 @@ public class PlayerView extends JFrame {
 		this.textFieldSquadNumber = textFieldSquadNumber;
 	}
 
-	private JTextField textFieldSquadNumber;
+	private JLabel label;
 
 	/**
 	 * Launch the application.
@@ -100,11 +111,13 @@ public class PlayerView extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws IOException
 	 */
-	public PlayerView() {
+	public PlayerView() throws IOException {
 		setTitle("Player Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 200, 391, 199);
+		setBounds(500, 200, 391, 268);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -181,7 +194,46 @@ public class PlayerView extends JFrame {
 		textFieldSquadNumber.setEditable(false);
 		contentPane.add(textFieldSquadNumber);
 
+		// label = new JLabel("Pic");
+		// label.setBounds(205, 135, 100, 50);
+		// label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		// label.setBackground(Color.LIGHT_GRAY);
+		// label.setOpaque(true);
+		// contentPane.add(label);
+		// addPicture();
+
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	public void setPlayerView(Player player) {
+		textFieldPlayerName.setText(player.getName());
+		textFieldAge.setText(String.valueOf(player.getAge()));
+		textFieldPosition.setText(player.getPosition());
+		textFieldClub.setText(player.getClub());
+		textFieldHeight.setText(String.valueOf(player.getHeight()));
+		textFieldSquadNumber.setText(String.valueOf(player.getSquad_number()));
+		textFieldCountry.setText(player.getCountry());
+	}
+
+	public void addPicture(String playerName) {
+		String str = playerName.trim().replaceAll(" ", "").toLowerCase();
+		BufferedImage playerPic = null;
+		try {
+			playerPic = ImageIO.read(new File("pic/" + str + ".jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+		if (playerPic != null) {
+			picLabel = new JLabel(new ImageIcon(playerPic));
+			picLabel.setBounds(225, 125, 100, 90);
+			add(picLabel);
+		} else {
+			picLabel = new JLabel("");
+			picLabel.setBounds(225, 125, 100, 90);
+			picLabel.setBackground(Color.LIGHT_GRAY);
+			picLabel.setOpaque(true);
+			add(picLabel);
+		}
+	}
 }

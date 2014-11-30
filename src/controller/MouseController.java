@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.JTable;
 
@@ -20,7 +21,13 @@ public class MouseController extends MouseAdapter {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		PlayerView playerView = new PlayerView();
+		PlayerView playerView = null;
+		try {
+			playerView = new PlayerView();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		// playerView.dispose();
 		if (e.getClickCount() == 2) {
 
@@ -35,19 +42,8 @@ public class MouseController extends MouseAdapter {
 								.parseInt(selectedPlayerNumber)) {
 							System.out.println(player.getClub() + ","
 									+ player.getName());
-							playerView.getTextFieldPlayerName().setText(
-									player.getName());
-							playerView.getTextFieldAge().setText(
-									String.valueOf(player.getAge()));
-							playerView.getTextFieldPosition().setText(
-									player.getPosition());
-							playerView.getTextFieldClub().setText(player.getClub());
-							playerView.getTextFieldHeight().setText(
-									String.valueOf(player.getHeight()));
-							playerView.getTextFieldSquadNumber().setText(
-									String.valueOf(player.getSquad_number()));
-							playerView.getTextFieldCountry().setText(
-									player.getCountry());
+							playerView.setPlayerView(player);
+							playerView.addPicture(player.getName());
 							playerView.setVisible(true);
 						}
 					}
