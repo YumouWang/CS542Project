@@ -7,8 +7,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +33,7 @@ public class PlayerView extends JFrame {
 	private JTextField textFieldHeight;
 	private JTextField textFieldSquadNumber;
 	private JLabel picLabel;
+	private JButton btnUpdate;
 
 	/**
 	 * @return the textFieldPlayerName
@@ -117,7 +118,7 @@ public class PlayerView extends JFrame {
 	public PlayerView() throws IOException {
 		setTitle("Player Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 200, 391, 268);
+		setBounds(500, 200, 391, 298);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -218,6 +219,13 @@ public class PlayerView extends JFrame {
 	public void addPicture(String playerName) {
 		String str = playerName.trim().replaceAll(" ", "").toLowerCase();
 		BufferedImage playerPic = null;
+		BufferedImage defaultPic = null;
+		try {
+			defaultPic = ImageIO.read(new File("pic/images.jpg"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		};
 		try {
 			playerPic = ImageIO.read(new File("pic/" + str + ".jpg"));
 		} catch (IOException e) {
@@ -226,14 +234,14 @@ public class PlayerView extends JFrame {
 		}
 		if (playerPic != null) {
 			picLabel = new JLabel(new ImageIcon(playerPic));
-			picLabel.setBounds(225, 125, 100, 90);
-			add(picLabel);
+			picLabel.setBounds(225, 125, 100, 120);
+			getContentPane().add(picLabel);
 		} else {
-			picLabel = new JLabel("");
-			picLabel.setBounds(225, 125, 100, 90);
+			picLabel = new JLabel(new ImageIcon(defaultPic));
+			picLabel.setBounds(225, 125, 100, 120);
 			picLabel.setBackground(Color.LIGHT_GRAY);
 			picLabel.setOpaque(true);
-			add(picLabel);
+			getContentPane().add(picLabel);
 		}
 	}
 }

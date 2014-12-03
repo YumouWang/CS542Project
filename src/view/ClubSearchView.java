@@ -45,16 +45,34 @@ public class ClubSearchView extends JFrame {
 	private JLabel labelHomeStadium;
 	private JLabel labelCoach;
 	private JLabel labelRanking;
+	private JLabel labelAverageAge;
+	private JLabel labelAverageHeight;
 	private JTextField textFieldClubName;
 	private JTextField textFieldHomeStaduim;
 	private JTextField textFieldCoach;
 	private JTextField textFieldRanking;
+	private JTextField textFieldAverageAge;
+	private JTextField textFieldAverageHeight;
 	private JButton btnUpdate;
 	/**
 	 * @return the textFieldClubName
 	 */
 	public JTextField getTextFieldClubName() {
 		return textFieldClubName;
+	}
+
+	/**
+	 * @return the textFieldAverageAge
+	 */
+	public JTextField getTextFieldAverageAge() {
+		return textFieldAverageAge;
+	}
+
+	/**
+	 * @return the textFieldAverageHeight
+	 */
+	public JTextField getTextFieldAverageHeight() {
+		return textFieldAverageHeight;
 	}
 
 	/**
@@ -149,7 +167,7 @@ public class ClubSearchView extends JFrame {
 		contentPane.add(btnBack);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(62, 190, 481, 200);
+		scrollPane.setBounds(62, 200, 481, 200);
 		contentPane.add(scrollPane);
 		
 		table = setTable();
@@ -157,48 +175,70 @@ public class ClubSearchView extends JFrame {
 		scrollPane.setViewportView(table);
 		
 		labelClubName = new JLabel("Club Name", JLabel.CENTER);
-		labelClubName.setBounds(62, 90, 70, 25);
+		labelClubName.setBounds(62, 85, 70, 25);
 		labelClubName.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(labelClubName);
 		
 		textFieldClubName = new JTextField();
-		textFieldClubName.setBounds(150, 90, 120, 25);
+		textFieldClubName.setBounds(150, 85, 120, 25);
 		textFieldClubName.setHorizontalAlignment(JTextField.CENTER);
 		textFieldClubName.setEditable(false);
 		contentPane.add(textFieldClubName);		
 		
 		labelHomeStadium = new JLabel("Home Stadium", JLabel.CENTER);
-		labelHomeStadium.setBounds(300, 90, 100, 25);
+		labelHomeStadium.setBounds(300, 85, 100, 25);
 		labelHomeStadium.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(labelHomeStadium);
 		
 		textFieldHomeStaduim = new JTextField();
-		textFieldHomeStaduim.setBounds(420, 90, 120, 25);
+		textFieldHomeStaduim.setBounds(420, 85, 120, 25);
 		textFieldHomeStaduim.setEditable(false);
 		textFieldHomeStaduim.setHorizontalAlignment(JTextField.CENTER);
 		contentPane.add(textFieldHomeStaduim);
 		
 		labelCoach = new JLabel("Coach", JLabel.CENTER);
-		labelCoach.setBounds(62, 140, 70, 25);
+		labelCoach.setBounds(62, 120, 70, 25);
 		labelCoach.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(labelCoach);
 		
 		textFieldCoach = new JTextField();
-		textFieldCoach.setBounds(150, 140, 120, 25);
+		textFieldCoach.setBounds(150, 120, 120, 25);
 		textFieldCoach.setEditable(false);
 		textFieldCoach.setHorizontalAlignment(JTextField.CENTER);
 		contentPane.add(textFieldCoach);
 		
 		labelRanking = new JLabel("Club Ranking", JLabel.CENTER);
-		labelRanking.setBounds(300, 140, 100, 25);
+		labelRanking.setBounds(300, 120, 100, 25);
 		labelRanking.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(labelRanking);
 		
 		textFieldRanking = new JTextField();
-		textFieldRanking.setBounds(420, 140, 120, 25);
+		textFieldRanking.setBounds(420, 120, 120, 25);
 		textFieldRanking.setEditable(false);
 		textFieldRanking.setHorizontalAlignment(JTextField.CENTER);
 		contentPane.add(textFieldRanking);
+		
+		labelAverageAge = new JLabel("Average Age");
+		labelAverageAge.setBounds(62, 155, 100, 25);
+		labelAverageAge.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		contentPane.add(labelAverageAge);
+		
+		textFieldAverageAge =  new JTextField();
+		textFieldAverageAge.setBounds(180, 155, 90, 25);
+		textFieldAverageAge.setEditable(false);
+		textFieldAverageAge.setHorizontalAlignment(JTextField.CENTER);
+		contentPane.add(textFieldAverageAge);
+		
+		labelAverageHeight = new JLabel("Average Height(cm)");
+		labelAverageHeight.setBounds(300, 155, 140, 25);
+		labelAverageHeight.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		contentPane.add(labelAverageHeight);
+		
+		textFieldAverageHeight =  new JTextField();
+		textFieldAverageHeight.setBounds(450, 155, 90, 25);
+		textFieldAverageHeight.setEditable(false);
+		textFieldAverageHeight.setHorizontalAlignment(JTextField.CENTER);
+		contentPane.add(textFieldAverageHeight);
 		
 		btnUpdate = new JButton("Update");
 		btnUpdate.setBounds(500, 10, Constants.BUTTON_WIDTH - 80, Constants.BUTTON_HEIGHT - 10);
@@ -267,7 +307,6 @@ public class ClubSearchView extends JFrame {
 	
 	public void updatable() {
 		btnUpdate.setVisible(true);
-		textFieldClubName.setEditable(true);
 		textFieldHomeStaduim.setEditable(true);
 		textFieldCoach.setEditable(true);
 		textFieldRanking.setEditable(true);
@@ -287,6 +326,9 @@ public class ClubSearchView extends JFrame {
 		textFieldHomeStaduim.setText(null);
 		textFieldCoach.setText(null);
 		textFieldRanking.setText(null);
+		textFieldAverageAge.setText(null);
+		textFieldAverageHeight.setText(null);
+		
 		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
 			this.getTable().setValueAt(null, rowNum, 0);
 			this.getTable().setValueAt(null, rowNum, 1);

@@ -149,6 +149,9 @@ public class LoginView extends JFrame {
 		String username = textField_1.getText().trim();
 		String password = textField_2.getText().trim();
 		if (Login.authenticate(username, password)) {
+//			JOptionPane.showMessageDialog(null,
+//					"! You have successfully logged in.", "Login",
+//					JOptionPane.INFORMATION_MESSAGE);
 			JOptionPane.showMessageDialog(null,
 					"! You have successfully logged in.", "Login",
 					JOptionPane.INFORMATION_MESSAGE);

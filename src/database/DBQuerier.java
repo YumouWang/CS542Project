@@ -158,6 +158,50 @@ public class DBQuerier {
 		playerList = resultSetToPlayerList(rs);
 		return playerList;
 	}
+	
+	public double getClubAverageAge(String club) throws SQLException {
+		double averageAge = 0;
+		PreparedStatement pstatement = null;
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select club, avg(age) from player group by club";
+		pstatement = conn.prepareStatement(sql);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		/*
+		 * index 1 : Club name 
+		 * index 2 : Players average age
+		 */
+		while (rs.next()) {
+			if (rs.getString(1).equalsIgnoreCase(club)) {
+				averageAge = (double)(Math.round(rs.getDouble(2)*100)/100.0);
+			}
+		}
+		return averageAge;
+	}
+	
+	public double getClubAverageHeight(String club) throws SQLException {
+		double averageHeight = 0;
+		PreparedStatement pstatement = null;
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select club, avg(height) from player group by club";
+		pstatement = conn.prepareStatement(sql);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		/*
+		 * index 1 : Club name 
+		 * index 2 : Players average height
+		 */
+		while (rs.next()) {
+			if (rs.getString(1).equalsIgnoreCase(club)) {
+				averageHeight = (double)(Math.round(rs.getDouble(2)*100)/100.0);
+			}
+		}
+		return averageHeight;
+	}
+	
+	
 
 	public Club getClubData(String clubName) throws SQLException {
 		Club club = null;

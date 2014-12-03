@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import view.ClubSearchView;
 import database.DBQuerier;
+import database.DBUpdater;
 import entity.Club;
 import entity.Player;
 
@@ -33,13 +34,20 @@ public class ButtonController implements ActionListener {
 			if (clickedButton.equals(clubSearchView.getBtnSearch())) {
 				// update club information
 				club = null;
+				double averageAge = 0;
+				double averageHeight = 0;
 				try {
 					club = dbQuerier.getClubData(clubSearchView.getTextField()
 							.getText());
+					averageAge = dbQuerier.getClubAverageAge(clubSearchView
+							.getTextField().getText());
+					averageHeight = dbQuerier
+							.getClubAverageHeight(clubSearchView.getTextField()
+									.getText());
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				}
-				if(club != null) {
+				if (club != null) {
 					clubSearchView.getTextFieldClubName().setText(
 							club.getClubName());
 					clubSearchView.getTextFieldHomeStaduim().setText(
@@ -47,13 +55,20 @@ public class ButtonController implements ActionListener {
 					clubSearchView.getTextFieldCoach().setText(club.getCoach());
 					clubSearchView.getTextFieldRanking().setText(
 							String.valueOf(club.getRanking()));
+					clubSearchView.getTextFieldAverageAge().setText(
+							Double.toString(averageAge));
+					clubSearchView.getTextFieldAverageHeight().setText(
+							Double.toString(averageHeight));
+
 				} else {
 					clubSearchView.getTextFieldClubName().setText(null);
 					clubSearchView.getTextFieldHomeStaduim().setText(null);
 					clubSearchView.getTextFieldCoach().setText(null);
 					clubSearchView.getTextFieldRanking().setText(null);
+					clubSearchView.getTextFieldAverageAge().setText(null);
+					clubSearchView.getTextFieldAverageHeight().setText(null);
 				}
-				
+
 				// update player list table
 				playerList = null;
 				// playerList.clear();
@@ -69,16 +84,17 @@ public class ButtonController implements ActionListener {
 				}
 				updateTable(playerList);
 			}
-			
+
 			// click on Back button
 			clickedButton = (JButton) e.getSource();
 			if (clickedButton.equals(clubSearchView.btnBack)) {
 				clubSearchView.card.show(ClubSearchView.container, "" + 3);
 				clubSearchView.launchGUI.setTitle("Version 1.0");
 			}
-			
+
 			if (clickedButton.equals(clubSearchView.getBtnUpdate())) {
 				System.out.println("Update!!!");
+				handleUpdate();
 			}
 		}
 
@@ -88,13 +104,20 @@ public class ButtonController implements ActionListener {
 			if (clickedTextField.equals(clubSearchView.getTextField())) {
 				// update club information
 				club = null;
+				double averageAge = 0;
+				double averageHeight = 0;
 				try {
 					club = dbQuerier.getClubData(clubSearchView.getTextField()
 							.getText());
+					averageAge = dbQuerier.getClubAverageAge(clubSearchView
+							.getTextField().getText());
+					averageHeight = dbQuerier
+							.getClubAverageHeight(clubSearchView.getTextField()
+									.getText());
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				}
-				if(club != null) {
+				if (club != null) {
 					clubSearchView.getTextFieldClubName().setText(
 							club.getClubName());
 					clubSearchView.getTextFieldHomeStaduim().setText(
@@ -102,11 +125,17 @@ public class ButtonController implements ActionListener {
 					clubSearchView.getTextFieldCoach().setText(club.getCoach());
 					clubSearchView.getTextFieldRanking().setText(
 							String.valueOf(club.getRanking()));
+					clubSearchView.getTextFieldAverageAge().setText(
+							Double.toString(averageAge));
+					clubSearchView.getTextFieldAverageHeight().setText(
+							Double.toString(averageHeight));
 				} else {
 					clubSearchView.getTextFieldClubName().setText(null);
 					clubSearchView.getTextFieldHomeStaduim().setText(null);
 					clubSearchView.getTextFieldCoach().setText(null);
 					clubSearchView.getTextFieldRanking().setText(null);
+					clubSearchView.getTextFieldAverageAge().setText(null);
+					clubSearchView.getTextFieldAverageHeight().setText(null);
 				}
 
 				// update player list table
@@ -127,7 +156,6 @@ public class ButtonController implements ActionListener {
 	}
 
 	public void updateTable(Collection<Player> playerList) {
-
 		Collection<Player> result = playerList;
 		if (result.size() == 0) {
 			for (int rowNum = 0; rowNum < clubSearchView.cellData.length; rowNum++) {
@@ -158,5 +186,24 @@ public class ButtonController implements ActionListener {
 
 	public Collection<Player> getPlayerList() {
 		return playerList;
+	}
+	
+	public void handleUpdate() {
+		if(clubSearchView.getTextFieldClubName().getText().equals(null)) {
+			// cannot update
+		} else {
+			// update
+			DBUpdater dbUpdater = new DBUpdater();
+			String clubName = clubSearchView.getTextFieldClubName().getText();
+			String homeStadium = clubSearchView.getTextFieldHomeStaduim().getText();
+			String coach = clubSearchView.getTextFieldCoach().getText();
+			int ranking = Integer.parseInt(clubSearchView.getTextFieldRanking().getText());
+			try {
+				dbUpdater.updateClub(clubName, homeStadium, coach, ranking);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

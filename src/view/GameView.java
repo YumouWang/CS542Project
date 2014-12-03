@@ -13,7 +13,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
@@ -90,6 +92,8 @@ public class GameView extends JFrame {
 	public CardLayout card;
 	public static JPanel container;
 	public LaunchGUI launchGUI;
+	
+	public JScrollPane jScrollPane;
 
 	/**
 	 * Launch the application.
@@ -118,10 +122,13 @@ public class GameView extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(Constants.X, Constants.Y, Constants.PANEL_WIDTH, Constants.PANEL_HEIGHT);
+		
+		
 		contentPane = new JPanel();
+		contentPane.setBounds(Constants.X, Constants.Y + 100, Constants.PANEL_WIDTH, Constants.PANEL_HEIGHT);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setContentPane(contentPane);
 		
 		btnSearch = new JButton("Search");
 		btnSearch.setBounds(10, 55, 110, 25);
@@ -316,7 +323,7 @@ public class GameView extends JFrame {
 		
 		lbl15= new JLabel("completed", SwingConstants.CENTER);
 		lbl15.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lbl15.setBounds(245, 390, 125, 20);
+		lbl15.setBounds(245, 490, 125, 20);
 		contentPane.add(lbl15);
 		
 		lblLeft15 = new JLabel("Home Team", SwingConstants.CENTER);

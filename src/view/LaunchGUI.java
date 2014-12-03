@@ -186,14 +186,4 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		// TODO Auto-generated method stub
 
 	}
-
-	/**
-	 * Launch the Application GUI
-	 */
-	public static void main(String[] args) {
-
-		LaunchGUI launchGUI = new LaunchGUI();
-		launchGUI.add(container);
-		launchGUI.setVisible(true);
-	}
 }
