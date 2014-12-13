@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,8 +18,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import common.Club;
 import common.Constants;
-
 import controller.ButtonController;
 import controller.MouseController;
 
@@ -54,6 +55,7 @@ public class ClubSearchView extends JFrame {
 	private JTextField textFieldAverageAge;
 	private JTextField textFieldAverageHeight;
 	private JButton btnUpdate;
+	private JComboBox<String> comboBoxClub;
 	/**
 	 * @return the textFieldClubName
 	 */
@@ -102,6 +104,13 @@ public class ClubSearchView extends JFrame {
 	public JButton getBtnUpdate() {
 		return btnUpdate;
 	}
+	
+	/**
+	 * @return the comboBoxClub
+	 */
+	public JComboBox<String> getComboBoxClub() {
+		return comboBoxClub;
+	}
 
 
 	/**
@@ -148,11 +157,17 @@ public class ClubSearchView extends JFrame {
 		label.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(label);
 		
-		textField = new JTextField();
-		textField.setBounds(170, 40, 220, 30);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		textField.addActionListener(buttonController);
+//		textField = new JTextField();
+//		textField.setBounds(170, 40, 220, 30);
+//		contentPane.add(textField);
+//		textField.setColumns(10);
+//		textField.addActionListener(buttonController);
+		
+		comboBoxClub = new JComboBox<String>();
+		comboBoxClub.setBounds(170, 40, 220, 30);
+		contentPane.add(comboBoxClub);
+		comboBoxClub.setModel(new javax.swing.DefaultComboBoxModel<String>(
+				new String[] { null, Club.Liverpool.getClubName(), Club.Real_Mardid.getClubName()}));
 
 		btnSearch = new JButton("Search");
 		btnSearch.setBounds(412, 40, 110, 30);
@@ -321,7 +336,7 @@ public class ClubSearchView extends JFrame {
 	}
 	
 	public void clear() {
-		textField.setText(null);
+		comboBoxClub.setSelectedIndex(-1);
 		textFieldClubName.setText(null);
 		textFieldHomeStaduim.setText(null);
 		textFieldCoach.setText(null);

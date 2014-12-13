@@ -15,11 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import common.Constants;
+
 import database.DBQuerier;
 
 public class GameView extends JFrame {
@@ -323,7 +323,7 @@ public class GameView extends JFrame {
 		
 		lbl15= new JLabel("completed", SwingConstants.CENTER);
 		lbl15.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lbl15.setBounds(245, 490, 125, 20);
+		lbl15.setBounds(245, 390, 125, 20);
 		contentPane.add(lbl15);
 		
 		lblLeft15 = new JLabel("Home Team", SwingConstants.CENTER);

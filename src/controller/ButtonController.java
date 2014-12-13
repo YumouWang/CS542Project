@@ -27,23 +27,26 @@ public class ButtonController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		DBQuerier dbQuerier = new DBQuerier();
 		JButton clickedButton = null;
-		JTextField clickedTextField = null;
+		String clubName = null;
+		if(clubSearchView.getComboBoxClub().getSelectedIndex() > -1) {
+			clubName = clubSearchView.getComboBoxClub().getSelectedItem().toString();
+		} else {
+			clubName = "";
+		}
+		
 		if (e.getSource() instanceof JButton) {
 			// click on Search button
 			clickedButton = (JButton) e.getSource();
-			if (clickedButton.equals(clubSearchView.getBtnSearch())) {
+			if (clickedButton.equals(clubSearchView.getBtnSearch()) && !clubName.equals("")) {
 				// update club information
 				club = null;
 				double averageAge = 0;
 				double averageHeight = 0;
 				try {
-					club = dbQuerier.getClubData(clubSearchView.getTextField()
-							.getText());
-					averageAge = dbQuerier.getClubAverageAge(clubSearchView
-							.getTextField().getText());
+					club = dbQuerier.getClubData(clubName);
+					averageAge = dbQuerier.getClubAverageAge(clubName);
 					averageHeight = dbQuerier
-							.getClubAverageHeight(clubSearchView.getTextField()
-									.getText());
+							.getClubAverageHeight(clubName);
 				} catch (SQLException e2) {
 					e2.printStackTrace();
 				}
@@ -73,8 +76,7 @@ public class ButtonController implements ActionListener {
 				playerList = null;
 				// playerList.clear();
 				try {
-					playerList = dbQuerier.getPlayerByClub(clubSearchView
-							.getTextField().getText());
+					playerList = dbQuerier.getPlayerByClub(clubName);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
@@ -98,61 +100,60 @@ public class ButtonController implements ActionListener {
 			}
 		}
 
-		if (e.getSource() instanceof JTextField) {
-			// press enter on search bar
-			clickedTextField = (JTextField) e.getSource();
-			if (clickedTextField.equals(clubSearchView.getTextField())) {
-				// update club information
-				club = null;
-				double averageAge = 0;
-				double averageHeight = 0;
-				try {
-					club = dbQuerier.getClubData(clubSearchView.getTextField()
-							.getText());
-					averageAge = dbQuerier.getClubAverageAge(clubSearchView
-							.getTextField().getText());
-					averageHeight = dbQuerier
-							.getClubAverageHeight(clubSearchView.getTextField()
-									.getText());
-				} catch (SQLException e2) {
-					e2.printStackTrace();
-				}
-				if (club != null) {
-					clubSearchView.getTextFieldClubName().setText(
-							club.getClubName());
-					clubSearchView.getTextFieldHomeStaduim().setText(
-							club.getHomeStadium());
-					clubSearchView.getTextFieldCoach().setText(club.getCoach());
-					clubSearchView.getTextFieldRanking().setText(
-							String.valueOf(club.getRanking()));
-					clubSearchView.getTextFieldAverageAge().setText(
-							Double.toString(averageAge));
-					clubSearchView.getTextFieldAverageHeight().setText(
-							Double.toString(averageHeight));
-				} else {
-					clubSearchView.getTextFieldClubName().setText(null);
-					clubSearchView.getTextFieldHomeStaduim().setText(null);
-					clubSearchView.getTextFieldCoach().setText(null);
-					clubSearchView.getTextFieldRanking().setText(null);
-					clubSearchView.getTextFieldAverageAge().setText(null);
-					clubSearchView.getTextFieldAverageHeight().setText(null);
-				}
-
-				// update player list table
-				playerList = null;
-				try {
-					playerList = dbQuerier.getPlayerByClub(clubSearchView
-							.getTextField().getText());
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				for (Player player : playerList) {
-					System.out.println(player.getName() + ","
-							+ player.getSquad_number());
-				}
-				updateTable(playerList);
-			}
-		}
+//		if (e.getSource() instanceof JTextField) {
+//			// press enter on search bar
+//			clickedTextField = (JTextField) e.getSource();
+//			if (clickedTextField.equals(clubSearchView.getTextField())) {
+//				// update club information
+//				club = null;
+//				double averageAge = 0;
+//				double averageHeight = 0;
+//				try {
+//					club = dbQuerier.getClubData(clubSearchView.getComboBoxClub().getSelectedItem().toString());
+//					averageAge = dbQuerier.getClubAverageAge(clubSearchView
+//							.getTextField().getText());
+//					averageHeight = dbQuerier
+//							.getClubAverageHeight(clubSearchView.getTextField()
+//									.getText());
+//				} catch (SQLException e2) {
+//					e2.printStackTrace();
+//				}
+//				if (club != null) {
+//					clubSearchView.getTextFieldClubName().setText(
+//							club.getClubName());
+//					clubSearchView.getTextFieldHomeStaduim().setText(
+//							club.getHomeStadium());
+//					clubSearchView.getTextFieldCoach().setText(club.getCoach());
+//					clubSearchView.getTextFieldRanking().setText(
+//							String.valueOf(club.getRanking()));
+//					clubSearchView.getTextFieldAverageAge().setText(
+//							Double.toString(averageAge));
+//					clubSearchView.getTextFieldAverageHeight().setText(
+//							Double.toString(averageHeight));
+//				} else {
+//					clubSearchView.getTextFieldClubName().setText(null);
+//					clubSearchView.getTextFieldHomeStaduim().setText(null);
+//					clubSearchView.getTextFieldCoach().setText(null);
+//					clubSearchView.getTextFieldRanking().setText(null);
+//					clubSearchView.getTextFieldAverageAge().setText(null);
+//					clubSearchView.getTextFieldAverageHeight().setText(null);
+//				}
+//
+//				// update player list table
+//				playerList = null;
+//				try {
+//					playerList = dbQuerier.getPlayerByClub(clubSearchView
+//							.getTextField().getText());
+//				} catch (SQLException e1) {
+//					e1.printStackTrace();
+//				}
+//				for (Player player : playerList) {
+//					System.out.println(player.getName() + ","
+//							+ player.getSquad_number());
+//				}
+//				updateTable(playerList);
+//			}
+//		}
 	}
 
 	public void updateTable(Collection<Player> playerList) {
