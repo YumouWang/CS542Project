@@ -63,19 +63,19 @@ public class DBQuerier {
 		}
 		if (height == null && age == null) {
 			return playerList;
-		} else if (height != null && age == null){
+		} else if (height != null && age == null) {
 			int intHeights[] = splitHeight(height);
-			playerList = getPlayerByHeight(intHeights[0],
-						intHeights[1], playerList);
+			playerList = getPlayerByHeight(intHeights[0], intHeights[1],
+					playerList);
 			return playerList;
-		} else if (height == null && age != null){
+		} else if (height == null && age != null) {
 			int intAges[] = splitAge(age);
 			playerList = getPlayerByAge(intAges[0], intAges[1], playerList);
 			return playerList;
 		} else {
 			int intHeights[] = splitHeight(height);
-			playerList = getPlayerByHeight(intHeights[0],
-						intHeights[1], playerList);
+			playerList = getPlayerByHeight(intHeights[0], intHeights[1],
+					playerList);
 			int intAges[] = splitAge(age);
 			playerList = getPlayerByAge(intAges[0], intAges[1], playerList);
 			return playerList;
@@ -123,21 +123,24 @@ public class DBQuerier {
 		playerList = resultSetToPlayerList(rs);
 		return playerList;
 	}
-	
-	public List<Player> getPlayerByHeight(int minHeight, int maxHeight, List<Player> playerList) {
+
+	public List<Player> getPlayerByHeight(int minHeight, int maxHeight,
+			List<Player> playerList) {
 		List<Player> temp = new LinkedList<Player>();
-		for(Player player : playerList) {
-			if(player.getHeight() >= minHeight && player.getHeight() <= maxHeight) {
+		for (Player player : playerList) {
+			if (player.getHeight() >= minHeight
+					&& player.getHeight() <= maxHeight) {
 				temp.add(player);
 			}
 		}
 		return temp;
 	}
-	
-	public List<Player> getPlayerByAge(int minAge, int maxAge, List<Player> playerList) {
+
+	public List<Player> getPlayerByAge(int minAge, int maxAge,
+			List<Player> playerList) {
 		List<Player> temp = new LinkedList<Player>();
-		for(Player player : playerList) {
-			if(player.getAge() >= minAge && player.getAge() <= maxAge) {
+		for (Player player : playerList) {
+			if (player.getAge() >= minAge && player.getAge() <= maxAge) {
 				temp.add(player);
 			}
 		}
@@ -158,7 +161,7 @@ public class DBQuerier {
 		playerList = resultSetToPlayerList(rs);
 		return playerList;
 	}
-	
+
 	public double getClubAverageAge(String club) throws SQLException {
 		double averageAge = 0;
 		PreparedStatement pstatement = null;
@@ -169,17 +172,16 @@ public class DBQuerier {
 
 		ResultSet rs = pstatement.getResultSet();
 		/*
-		 * index 1 : Club name 
-		 * index 2 : Players average age
+		 * index 1 : Club name index 2 : Players average age
 		 */
 		while (rs.next()) {
 			if (rs.getString(1).equalsIgnoreCase(club)) {
-				averageAge = (double)(Math.round(rs.getDouble(2)*100)/100.0);
+				averageAge = (double) (Math.round(rs.getDouble(2) * 100) / 100.0);
 			}
 		}
 		return averageAge;
 	}
-	
+
 	public double getClubAverageHeight(String club) throws SQLException {
 		double averageHeight = 0;
 		PreparedStatement pstatement = null;
@@ -190,18 +192,15 @@ public class DBQuerier {
 
 		ResultSet rs = pstatement.getResultSet();
 		/*
-		 * index 1 : Club name 
-		 * index 2 : Players average height
+		 * index 1 : Club name index 2 : Players average height
 		 */
 		while (rs.next()) {
 			if (rs.getString(1).equalsIgnoreCase(club)) {
-				averageHeight = (double)(Math.round(rs.getDouble(2)*100)/100.0);
+				averageHeight = (double) (Math.round(rs.getDouble(2) * 100) / 100.0);
 			}
 		}
 		return averageHeight;
 	}
-	
-	
 
 	public Club getClubData(String clubName) throws SQLException {
 		Club club = null;
@@ -221,12 +220,13 @@ public class DBQuerier {
 		}
 		return club;
 	}
-	
+
 	public int getGameId(String homeTeam, String awayTeam, String gamedate) {
 		return 1;
 	}
-	
-	public ResultSet getTeamDataByGameId(int id, String team) throws SQLException {
+
+	public ResultSet getTeamDataByGameId(int id, String team)
+			throws SQLException {
 		Club club = null;
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from teamPerformance where gameId = ? and team = ?";
@@ -237,8 +237,21 @@ public class DBQuerier {
 
 		ResultSet rs = pstatement.getResultSet();
 		if (rs.next()) {
-			
+
 		}
+		return rs;
+	}
+
+	public ResultSet getGameByTeam(String team) throws SQLException {
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select * from game where HomeTeam = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setString(1, team);
+//		pstatement.setString(2, team);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+
 		return rs;
 	}
 
@@ -288,17 +301,18 @@ public class DBQuerier {
 		}
 		return playerList;
 	}
-	
-	public List<Player> intersection(List<Player> playerList1, List<Player> playerList2) {
-        List<Player> list = new LinkedList<Player>();
-        for (Player player : playerList1) {
-            if(playerList2.contains(player)) {
-                list.add(player);
-            }
-        }
-        return list;
-    }
-	
+
+	public List<Player> intersection(List<Player> playerList1,
+			List<Player> playerList2) {
+		List<Player> list = new LinkedList<Player>();
+		for (Player player : playerList1) {
+			if (playerList2.contains(player)) {
+				list.add(player);
+			}
+		}
+		return list;
+	}
+
 	public int[] splitHeight(String height) {
 		String minHeight;
 		String maxHeight;
@@ -310,7 +324,7 @@ public class DBQuerier {
 			maxHeight = heights[1];
 			intHeights[0] = Integer.parseInt(minHeight);
 			intHeights[1] = Integer.parseInt(maxHeight.trim()) - 1;
-			
+
 		} else if (height.equals(PlayerHeight.Height6.getPlayerHeight())) {
 			heights = height.split("\\>");
 			minHeight = heights[1];
@@ -326,7 +340,7 @@ public class DBQuerier {
 		}
 		return intHeights;
 	}
-	
+
 	public int[] splitAge(String age) {
 		String minAge;
 		String maxAge;
@@ -339,7 +353,7 @@ public class DBQuerier {
 			System.out.println("*****" + maxAge);
 			intAges[0] = Integer.parseInt(minAge);
 			intAges[1] = Integer.parseInt(maxAge.trim()) - 1;
-			
+
 		} else if (age.equals(PlayerAge.Age5.getPlayerAge())) {
 			ages = age.split("\\>");
 			minAge = ages[1];
