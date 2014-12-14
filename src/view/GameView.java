@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -22,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import common.Club;
 import common.Constants;
 
 import database.DBQuerier;
@@ -54,6 +57,11 @@ public class GameView extends JFrame {
 	public JScrollPane jScrollPane;
 	public JTable table;
 	public Object cellData[][];
+	
+	private String homeTeam;
+	private String awayTeam;
+	private String gameDate;
+	private int gameId;
 	
 	
 
@@ -93,35 +101,17 @@ public class GameView extends JFrame {
 		setContentPane(contentPane);
 		
 		btnSearch = new JButton("Search");
-		btnSearch.setBounds(245, 100, 125, 28);
+		btnSearch.setBounds(330, 70, 130, 27);
 		btnSearch.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(btnSearch);
 		
-		btnSearch.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				DBQuerier dbQuerier = new DBQuerier();
-				ResultSet rs = null;
-				System.out.println("-------");
-				try {
-					if(comboBoxHomeTeam.getSelectedIndex() > -1) {
-						rs = dbQuerier.getGameByTeam(comboBoxHomeTeam.getSelectedItem().toString().toLowerCase());
-						System.out.println(comboBoxHomeTeam.getSelectedItem().toString().toLowerCase());
-					}
-					if(rs != null) {
-						updateTable(rs);
-					}
-				} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-				}					
-			}
-		});
+
 		
 		btnGameStatistics = new JButton("Game Statistics");
-		btnGameStatistics.setBounds(10, 305, 160, 25);
+		btnGameStatistics.setBounds(100, 305, 160, 25);
 		btnGameStatistics.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		contentPane.add(btnGameStatistics);
+		btnGameStatistics.setEnabled(false);
 		
 		btnGameStatistics.addActionListener(new ActionListener() {
 			@Override
@@ -130,10 +120,17 @@ public class GameView extends JFrame {
 				launchGUI.setTitle("Game Statistics");
 				DBQuerier dbQuerier = new DBQuerier();
 				ResultSet rs = null;
-				int gameId = dbQuerier.getGameId("", "", "");
+				int gameId = 0;
 				try {
-					if(comboBoxHomeTeam.getSelectedItem().toString() != "" ) {
-						rs = dbQuerier.getTeamDataByGameId(gameId, comboBoxHomeTeam.getSelectedItem().toString());
+					gameId = dbQuerier.getGameId(homeTeam, awayTeam, gameDate);
+					System.out.println(gameId + "------===");
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				try {
+					if(homeTeam != null) {
+						rs = dbQuerier.getTeamDataByGameId(gameId, homeTeam);
 					}
 					if(rs != null) {
 						launchGUI.gameStatistics.lblLeft1.setText(String.valueOf(rs.getInt(3)));
@@ -157,8 +154,8 @@ public class GameView extends JFrame {
 					e1.printStackTrace();
 				}
 				try {
-					if(comboBoxAwayTeam.getSelectedItem().toString() != "" ) {
-						rs = dbQuerier.getTeamDataByGameId(gameId, comboBoxAwayTeam.getSelectedItem().toString());
+					if(awayTeam != null) {
+						rs = dbQuerier.getTeamDataByGameId(gameId, awayTeam);
 					}
 					
 					if(rs != null) {
@@ -188,8 +185,9 @@ public class GameView extends JFrame {
 		});
 		
 		btnPlayerStatistics = new JButton("Player Statistics");
-		btnPlayerStatistics.setBounds(200, 305, 160, 25);
+		btnPlayerStatistics.setBounds(340, 305, 160, 25);
 		btnPlayerStatistics.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		btnPlayerStatistics.setEnabled(false);
 		contentPane.add(btnPlayerStatistics);
 		
 		btnPlayerStatistics.addActionListener(new ActionListener() {
@@ -197,14 +195,11 @@ public class GameView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				card.show(container, "" + 9);
+				launchGUI.setTitle("Player Statistics");
 			}
 			
 		});
-		
-		
-		
-
 		
 		btnBack = new JButton("Back");
 		btnBack.setBounds(20, 10, Constants.BUTTON_WIDTH - 80, Constants.BUTTON_HEIGHT - 10);
@@ -219,41 +214,42 @@ public class GameView extends JFrame {
 			}
 		});
 		
+		
 		lblSearchGame = new JLabel("Search Game", SwingConstants.CENTER);
 		lblSearchGame.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblSearchGame.setBounds(245, 10, 125, 32);
+		lblSearchGame.setBounds(245, 10, Constants.BUTTON_WIDTH, Constants.BUTTON_HEIGHT);
 		contentPane.add(lblSearchGame);
 		
-		lblHomeTeam = new JLabel("Home Team", SwingConstants.CENTER);
+		lblHomeTeam = new JLabel("Team", SwingConstants.CENTER);
 		lblHomeTeam.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblHomeTeam.setBounds(150, 40, 125, 32);
+		lblHomeTeam.setBounds(60, 70, 80, 27);
 		contentPane.add(lblHomeTeam);
 		
-		lblAwayTeam = new JLabel("Away Team", SwingConstants.CENTER);
-		lblAwayTeam.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblAwayTeam.setBounds(290, 40, 125, 32);
-		contentPane.add(lblAwayTeam);
+//		lblAwayTeam = new JLabel("Away Team", SwingConstants.CENTER);
+//		lblAwayTeam.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+//		lblAwayTeam.setBounds(290, 40, 125, 32);
+//		contentPane.add(lblAwayTeam);
 		
-		lblDate = new JLabel("Date", SwingConstants.CENTER);
-		lblDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblDate.setBounds(430, 40, 125, 32);
-		contentPane.add(lblDate);
+//		lblDate = new JLabel("Date", SwingConstants.CENTER);
+//		lblDate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+//		lblDate.setBounds(430, 40, 125, 32);
+//		contentPane.add(lblDate);
 		
 		comboBoxHomeTeam = new JComboBox<String>();
-		comboBoxHomeTeam.setBounds(160, 70, 103, 21);
+		comboBoxHomeTeam.setBounds(130, 70, 130, 27);
 		contentPane.add(comboBoxHomeTeam);
 		comboBoxHomeTeam.setModel(new javax.swing.DefaultComboBoxModel<String>(
-				new String[] { null, "Liverpool"}));
+				new String[] { null, Club.Liverpool.getClubName(), Club.Real_Mardid.getClubName(), Club.Barcelona.getClubName(), Club.Paris.getClubName() }));
 		
-		comboBoxAwayTeam = new JComboBox<String>();
-		comboBoxAwayTeam.setBounds(300, 70, 103, 21);
-		comboBoxAwayTeam.setModel(new javax.swing.DefaultComboBoxModel<String>(
-				new String[] { null, "Real Madrid"}));
-		contentPane.add(comboBoxAwayTeam);
+//		comboBoxAwayTeam = new JComboBox<String>();
+//		comboBoxAwayTeam.setBounds(300, 70, 103, 21);
+//		comboBoxAwayTeam.setModel(new javax.swing.DefaultComboBoxModel<String>(
+//				new String[] { null, "Real Madrid"}));
+//		contentPane.add(comboBoxAwayTeam);
 		
-		comboBoxDate = new JComboBox<String>();
-		comboBoxDate.setBounds(440, 70, 103, 21);
-		contentPane.add(comboBoxDate);
+//		comboBoxDate = new JComboBox<String>();
+//		comboBoxDate.setBounds(440, 70, 103, 21);
+//		contentPane.add(comboBoxDate);
 		
 //		lblTeamData= new JLabel("Game Statistics", SwingConstants.CENTER);
 //		lblTeamData.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
@@ -265,10 +261,86 @@ public class GameView extends JFrame {
 		contentPane.add(scrollPane);
 		
 		table = setTable();
+		table.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 1) {
+
+					int row = table.getSelectedRow();
+					if (table.getValueAt(row, 0) != null) {
+						btnPlayerStatistics.setEnabled(true);
+						btnGameStatistics.setEnabled(true);
+						homeTeam = table.getValueAt(row, 0).toString();
+						awayTeam = table.getValueAt(row, 1).toString();
+						gameDate = table.getValueAt(row, 2).toString();
+						DBQuerier dbQuerier = new DBQuerier();
+						try {
+							gameId = dbQuerier.getGameId(homeTeam, awayTeam, gameDate);
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						btnPlayerStatistics.setEnabled(false);
+						btnGameStatistics.setEnabled(false);
+					}
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO Auto-generated method stub				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub			
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub	
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub			
+			}
+		});
 		scrollPane.setViewportView(table);
+		
+		btnSearch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				DBQuerier dbQuerier = new DBQuerier();
+				ResultSet rs = null;
+				btnGameStatistics.setEnabled(false);;
+				btnPlayerStatistics.setEnabled(false);;
+				try {
+					if(comboBoxHomeTeam.getSelectedIndex() > -1) {
+						rs = dbQuerier.getGameByTeam(comboBoxHomeTeam.getSelectedItem().toString().toLowerCase());
+					}
+					if(rs != null) {
+						updateTable(rs);
+					} else {
+						for (int rowNum = 0; rowNum < cellData.length; rowNum++) {
+							table.setValueAt(null, rowNum, 0);
+							table.setValueAt(null, rowNum, 1);
+							table.setValueAt(null, rowNum, 2);
+							btnGameStatistics.setEnabled(false);
+							btnPlayerStatistics.setEnabled(false);
+							
+						}
+					}
+				} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+				}					
+			}
+		});
 	}
-	
-	
 	
 	private JTable setTable() {
 		String[] columnNames = { "Home Team", "Away Team", "Date of Game" };
@@ -341,7 +413,16 @@ public class GameView extends JFrame {
 		}
 	}
 	public void clear() {
-		
+		comboBoxHomeTeam.setSelectedIndex(0);
+		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
+			this.table.setValueAt(null, rowNum, 0);
+			this.table.setValueAt(null, rowNum, 1);
+			this.table.setValueAt(null, rowNum, 2);
+		}
+		btnGameStatistics.setEnabled(false);
+		btnPlayerStatistics.setEnabled(false);
+		launchGUI.gameStatistics.clear();
+		launchGUI.playerStatistics.clear();
 		
 	}
 }

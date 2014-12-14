@@ -1,11 +1,13 @@
 package common;
 
 public enum Country {
-	Any("Any"), Portugal("Portugal"), France("France"), Mexico("Mexico"), Spain(
-			"Spain"), Croatia("Croatia"), Wales("Wales"), Colombia("Colombia"), Germany(
-			"Germany"), Brazil("Brazil"), Costa_Rica("Costa Rica"), Serbia(
-			"Serbia"), England("England"), Italy("Italy"), Slovakia("Slovakia"), Australia(
-			"Australia"), Belgium("Belgium"), Cote_dIvoire("Cote dIvoire");
+	Any("Any"), Argentina("Argentina"), Australia("Australia"), Belgium(
+			"Belgium"), Brazil("Brazil"), Colombia("Colombia"), Costa_Rica(
+			"Costa Rica"), Cote_dIvoire("Cote_dIvoire"), Croatia("Croatia"), England(
+			"England"), France("France"), Germany("Germany"), Italy("Italy"), Mexico(
+			"Mexico"), Netherlands("Netherlands"), Portugal("Portugal"), Serbia(
+			"Serbia"), Slovakia("Slovakia"), Spain("Spain"), Sweden("Sweden"), Uruguay(
+			"Uruguay"), Wales("Wales");
 
 	private String country;
 

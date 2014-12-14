@@ -159,6 +159,7 @@ public class LoginView extends JFrame {
 			this.launchGUI.clubSearchView.updatable();;
 			this.launchGUI.clubSearchView.clear();
 			this.launchGUI.playerSearchView.clear();
+			this.launchGUI.gameView.clear();
 			launchGUI.setTitle("Version 1.0");
 			
 		} else {

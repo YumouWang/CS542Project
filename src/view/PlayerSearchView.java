@@ -120,6 +120,7 @@ public class PlayerSearchView extends JFrame {
 
 		comboBoxCountry.setModel(new javax.swing.DefaultComboBoxModel<String>(
 				new String[] { Country.Any.getCountryName(),
+						Country.Argentina.getCountryName(),
 						Country.Australia.getCountryName(),
 						Country.Belgium.getCountryName(),
 						Country.Brazil.getCountryName(),
@@ -136,6 +137,8 @@ public class PlayerSearchView extends JFrame {
 						Country.Serbia.getCountryName(),
 						Country.Slovakia.getCountryName(),
 						Country.Spain.getCountryName(),
+						Country.Sweden.getCountryName(),
+						Country.Uruguay.getCountryName(),
 						Country.Wales.getCountryName() }));
 
 		lblHeight = new JLabel("Height(cm)", JLabel.CENTER);
@@ -183,7 +186,9 @@ public class PlayerSearchView extends JFrame {
 		contentPane.add(comboBoxClub);
 
 		comboBoxClub.setModel(new javax.swing.DefaultComboBoxModel<String>(
-				new String[] { "Any", "Real Madrid", "Liverpool" }));
+				new String[] { "Any", Club.Barcelona.getClubName(),
+						Club.Liverpool.getClubName(), Club.Paris.getClubName(),
+						Club.Real_Mardid.getClubName() }));
 
 		JButton btnSearch = new JButton("Search");
 		btnSearch.setBounds(235, 156, 93, 23);
@@ -407,7 +412,8 @@ public class PlayerSearchView extends JFrame {
 	}
 
 	public void clear() {
-		textField.setText(null);;
+		textField.setText(null);
+		;
 		comboBoxPosition.setSelectedIndex(0);
 		comboBoxCountry.setSelectedIndex(0);
 		comboBoxHeight.setSelectedIndex(0);

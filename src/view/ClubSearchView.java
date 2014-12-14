@@ -167,7 +167,7 @@ public class ClubSearchView extends JFrame {
 		comboBoxClub.setBounds(170, 40, 220, 30);
 		contentPane.add(comboBoxClub);
 		comboBoxClub.setModel(new javax.swing.DefaultComboBoxModel<String>(
-				new String[] { null, Club.Liverpool.getClubName(), Club.Real_Mardid.getClubName()}));
+				new String[] { null, Club.Liverpool.getClubName(), Club.Real_Mardid.getClubName(), Club.Barcelona.getClubName(), Club.Paris.getClubName()}));
 
 		btnSearch = new JButton("Search");
 		btnSearch.setBounds(412, 40, 110, 30);

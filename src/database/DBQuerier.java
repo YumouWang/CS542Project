@@ -221,13 +221,25 @@ public class DBQuerier {
 		return club;
 	}
 
-	public int getGameId(String homeTeam, String awayTeam, String gamedate) {
-		return 1;
+	public int getGameId(String homeTeam, String awayTeam, String gameDate) throws SQLException {
+		int gameId = 0;
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select GameId from game where homeTeam = ? and awayTeam = ? and gameDate = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setString(1, homeTeam);
+		pstatement.setString(2, awayTeam);
+		pstatement.setString(3, gameDate);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		if (rs.next()) {
+			gameId = rs.getInt(1);
+		}
+		return gameId;
 	}
 
 	public ResultSet getTeamDataByGameId(int id, String team)
 			throws SQLException {
-		Club club = null;
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from teamPerformance where gameId = ? and team = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
@@ -244,10 +256,10 @@ public class DBQuerier {
 
 	public ResultSet getGameByTeam(String team) throws SQLException {
 		Connection conn = DBConnector.getInstance().getConn();
-		String sql = "select * from game where HomeTeam = ?";
+		String sql = "select * from game where HomeTeam = ? or AwayTeam = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
 		pstatement.setString(1, team);
-//		pstatement.setString(2, team);
+		pstatement.setString(2, team);
 		pstatement.execute();
 
 		ResultSet rs = pstatement.getResultSet();

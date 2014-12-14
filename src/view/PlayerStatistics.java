@@ -1,9 +1,15 @@
 package view;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,9 +27,14 @@ public class PlayerStatistics extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	public JPanel contentPane;
 	public Object[][] cellData;
 	private JTable table;
+	
+	public JButton btnBack;
+	public LaunchGUI launchGUI;
+	public CardLayout card;
+	public static JPanel container;
 
 	/**
 	 * Launch the application.
@@ -32,7 +43,8 @@ public class PlayerStatistics extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PlayerStatistics frame = new PlayerStatistics();
+					LaunchGUI launchGUI = new LaunchGUI();
+					PlayerStatistics frame = new PlayerStatistics(launchGUI);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +56,10 @@ public class PlayerStatistics extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PlayerStatistics() {
+	public PlayerStatistics(final LaunchGUI launchGUI) {
+		this.launchGUI = launchGUI;
+		this.card = launchGUI.card;
+		PlayerStatistics.container = LaunchGUI.container;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(Constants.X, Constants.Y, Constants.PANEL_WIDTH,
@@ -54,14 +69,33 @@ public class PlayerStatistics extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		btnBack = new JButton("Back");
+		btnBack.setBounds(20, 10, Constants.BUTTON_WIDTH - 80, Constants.BUTTON_HEIGHT - 10);
+		btnBack.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		contentPane.add(btnBack);
+		
+		JLabel legendLabel = new JLabel("<html>Legend:<br>GS:Goals scored ON:on target OFF:off target AS:Assists OF:Offsides FC:Fouls committed FS:Fouls suffered AP:Passes CP:completed PC:Pass completion RA:Rating</html>");
+		legendLabel.setBounds(40, 365, 510, 50);
+		legendLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		contentPane.add(legendLabel);
+		
+		
+		btnBack.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				card.show(container, "" + 6);
+				launchGUI.setTitle("Version 1.0");
+			}
+		});
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(40, 90, 510, 312);
+		scrollPane.setBounds(40, 60, 510, 300);
 		contentPane.add(scrollPane);
 
 		table = setTable();
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		table.getColumnModel().getColumn(0).setPreferredWidth(80);
-		table.getColumnModel().getColumn(1).setPreferredWidth(80);
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(120);
 		table.getColumnModel().getColumn(2).setPreferredWidth(40);
 		table.getColumnModel().getColumn(3).setPreferredWidth(40);
 		table.getColumnModel().getColumn(4).setPreferredWidth(40);
@@ -76,7 +110,7 @@ public class PlayerStatistics extends JFrame {
 	}
 	
 	private JTable setTable() {
-		String[] columnNames = { "Club", "Player Name", "GS", "ON", "OFF", "AS", "OF", "FC", "FS", "AP", "CP", "PC" };
+		String[] columnNames = { "Club", "Player Name", "GS", "ON", "OFF", "AS", "OF", "FC", "AP", "CP", "PC", "RA"};
 		cellData = new String[25][12];
 		int i;
 		for (i = 0; i < 25; i++) {
@@ -110,6 +144,23 @@ public class PlayerStatistics extends JFrame {
 				return renderCenter;
 			}
 		};
+	}
+	
+	public void clear() {
+		for (int rowNum = 0; rowNum < this.cellData.length; rowNum++) {
+			this.table.setValueAt(null, rowNum, 0);
+			this.table.setValueAt(null, rowNum, 1);
+			this.table.setValueAt(null, rowNum, 2);
+			this.table.setValueAt(null, rowNum, 3);
+			this.table.setValueAt(null, rowNum, 4);
+			this.table.setValueAt(null, rowNum, 5);
+			this.table.setValueAt(null, rowNum, 6);
+			this.table.setValueAt(null, rowNum, 7);
+			this.table.setValueAt(null, rowNum, 8);
+			this.table.setValueAt(null, rowNum, 9);
+			this.table.setValueAt(null, rowNum, 10);
+			this.table.setValueAt(null, rowNum, 11);
+		}
 	}
 
 }

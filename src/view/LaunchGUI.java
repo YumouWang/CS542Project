@@ -39,6 +39,7 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	public GameView gameView;
 	public PlayerSearchView playerSearchView;
 	public GameStatistics gameStatistics;
+	public PlayerStatistics playerStatistics;
 	
 	LoginView loginView;
 
@@ -114,11 +115,14 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		gameView = new GameView(this);
 		container.add(gameView.contentPane, "6");
 			
-		this.loginView = new LoginView(this);
+		loginView = new LoginView(this);
 		container.add(loginView.contentPane, "7");
 		
 		gameStatistics = new GameStatistics(this);
 		container.add(gameStatistics.contentPane, "8");
+		
+		playerStatistics = new PlayerStatistics(this);
+		container.add(playerStatistics.contentPane, "9");
 		
 		card.show(container, "2");
 	}
@@ -141,6 +145,7 @@ public class LaunchGUI extends JFrame implements MouseListener {
 			this.clubSearchView.unUpdatable();
 			this.clubSearchView.clear();
 			this.playerSearchView.clear();
+			this.gameView.clear();
 		}
 		
 		if (e.getSource() == btBacktoPrev) {

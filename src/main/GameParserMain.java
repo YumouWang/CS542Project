@@ -9,6 +9,6 @@ public class GameParserMain {
 		
 		for(Game game : gameParser.parse()) {
 			System.out.println(game.getGameId() + "," + game.getHomeTeam() + "," + game.getAwayTeam() + "," + game.getDate());	
-		}	
+		}
 	}
 }
