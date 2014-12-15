@@ -41,6 +41,8 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	public GameStatistics gameStatistics;
 	public PlayerStatistics playerStatistics;
 	
+	public static boolean isAdmin;
+	
 	LoginView loginView;
 
 	/**
@@ -130,7 +132,6 @@ public class LaunchGUI extends JFrame implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 
 		if (e.getSource() == btAdmin) {
-			System.out.println("button Admin pressed ");
 			loginView.textField_1.setText("");
 			loginView.textField_2.setText("");
 //			JOptionPane.showMessageDialog(null,  "User name and password do"
@@ -140,7 +141,6 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		}
 
 		if (e.getSource() == btUser) {
-			System.out.println("button User pressed ");
 			card.show(container, "" + 3);
 			this.clubSearchView.unUpdatable();
 			this.clubSearchView.clear();
@@ -149,24 +149,21 @@ public class LaunchGUI extends JFrame implements MouseListener {
 		}
 		
 		if (e.getSource() == btBacktoPrev) {
-			System.out.println("button Back to pressed ");
 			card.show(container, "" + 2);
+			LaunchGUI.isAdmin = false;
 		}
 		
 		if (e.getSource() == btSearchPlayer){
-			System.out.println("button Search Player pressed ");
 			card.show(container, "" + 5);
 			this.setTitle("Player Search");
 		}
 		
 		if (e.getSource() == btSearchClub){
-			System.out.println("button Search Club pressed ");
 			card.show(container, "" + 4);
 			this.setTitle("Club Search");
 		}
 		
 		if (e.getSource() == btViewGmResult){
-			System.out.println("button View Game Result pressed ");
 			card.show(container, "" + 6);
 			this.setTitle("Game Result");
 		}

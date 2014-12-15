@@ -123,7 +123,6 @@ public class GameView extends JFrame {
 				int gameId = 0;
 				try {
 					gameId = dbQuerier.getGameId(homeTeam, awayTeam, gameDate);
-					System.out.println(gameId + "------===");
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -195,10 +194,22 @@ public class GameView extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				card.show(container, "" + 9);
+				
 				launchGUI.setTitle("Player Statistics");
+				DBQuerier dbQuerier = new DBQuerier();
+				try {
+					gameId = dbQuerier.getGameId(homeTeam, awayTeam, gameDate);
+					ResultSet rs = dbQuerier.getPlayerStatisticsByGameId(gameId);
+					if(rs != null) {
+						launchGUI.playerStatistics.updateTable(rs);
+					} else {
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				card.show(container, "" + 9);
 			}
-			
 		});
 		
 		btnBack = new JButton("Back");
@@ -211,6 +222,7 @@ public class GameView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				card.show(container, "" + 3);
 				launchGUI.setTitle("Version 1.0");
+				
 			}
 		});
 		
@@ -384,7 +396,6 @@ public class GameView extends JFrame {
 	}
 	
 	public void updateTable(ResultSet rs) {
-		System.out.println("update table" + rs.equals(null));
 		if (rs.equals(null)) {
 			for (int rowNum = 0; rowNum < cellData.length; rowNum++) {
 				getTable().setValueAt(null, rowNum, 0);

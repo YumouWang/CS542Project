@@ -80,10 +80,6 @@ public class ButtonController implements ActionListener {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				for (Player player : playerList) {
-					System.out.println(player.getName() + ","
-							+ player.getSquad_number());
-				}
 				updateTable(playerList);
 			}
 
@@ -95,7 +91,6 @@ public class ButtonController implements ActionListener {
 			}
 
 			if (clickedButton.equals(clubSearchView.getBtnUpdate())) {
-				System.out.println("Update!!!");
 				handleUpdate();
 			}
 		}

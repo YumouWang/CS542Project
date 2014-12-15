@@ -1,8 +1,11 @@
 package view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -352,7 +355,12 @@ public class GameStatistics extends JFrame {
 		lblRight14.setBounds(460, 350, 65, 20);
 		lblRight14.setHorizontalAlignment(JTextField.CENTER);
 		contentPane.add(lblRight14);
-		
+	}
+	
+	public void paint (Graphics g) {
+		g.setColor(Color.RED);
+		g.drawRect(100, 100, 100, 20); 
+	    g.fillRect(100, 100, 100, 20); 
 	}
 	
 	public void clear() {

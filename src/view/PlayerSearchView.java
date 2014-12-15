@@ -238,7 +238,7 @@ public class PlayerSearchView extends JFrame {
 				if (e.getClickCount() == 2) {
 					PlayerView playerView = null;
 					try {
-						playerView = new PlayerView();
+						playerView = new PlayerView(launchGUI);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -253,8 +253,6 @@ public class PlayerSearchView extends JFrame {
 							for (Player player : playerList) {
 								if (player.getName().trim()
 										.equalsIgnoreCase(selectedPlayerName)) {
-									System.out.println(player.getClub() + ","
-											+ player.getName());
 									playerView.setPlayerView(player);
 									playerView.addPicture(player.getName());
 									playerView.setVisible(true);
@@ -395,8 +393,6 @@ public class PlayerSearchView extends JFrame {
 		DBQuerier dbQuerier = new DBQuerier();
 
 		try {
-			System.out.println("Height:" + inputHeight + ", Country:"
-					+ inputCountry);
 			playerList = dbQuerier.getPlayerData(textField.getText(),
 					inputPosition, inputAge, inputCountry, inputClub,
 					inputHeight);
@@ -405,10 +401,6 @@ public class PlayerSearchView extends JFrame {
 			e1.printStackTrace();
 		}
 		updateTable(playerList);
-
-		for (Player player : playerList) {
-			System.out.println(player.getName() + "," + player.getClub());
-		}
 	}
 
 	public void clear() {

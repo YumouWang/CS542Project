@@ -7,6 +7,7 @@ import java.util.List;
 import parser.ClubParser;
 import parser.GameParser;
 import parser.PlayerParser;
+import parser.PlayerStatisticsParser;
 import parser.TeamPerformanceParser;
 import database.DBUploader;
 import entity.Club;
@@ -31,6 +32,8 @@ public class DBUploaderMain {
 		
 		TeamPerformanceParser teamPerformanceParser = new TeamPerformanceParser();
 		
+		PlayerStatisticsParser playerStatisticsParser = new PlayerStatisticsParser();
+		
 //		try {
 //			dbUploader.insertPlayerData(playerList);
 //		} catch (SQLException e) {
@@ -50,8 +53,14 @@ public class DBUploaderMain {
 //		}
 
 		
+//		try {
+//			dbUploader.insertTeamPerformance(teamPerformanceParser.parse());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+		
 		try {
-			dbUploader.insertTeamPerformance(teamPerformanceParser.parse());
+			dbUploader.insertPlayerStatistics(playerStatisticsParser.parse());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

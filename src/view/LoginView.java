@@ -139,6 +139,7 @@ public class LoginView extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				card.show(container, "" + 2);
 				launchGUI.setTitle("Version 1.0");
+				LaunchGUI.isAdmin = false;
 			}
 		});
 
@@ -149,19 +150,21 @@ public class LoginView extends JFrame {
 		String username = textField_1.getText().trim();
 		String password = textField_2.getText().trim();
 		if (Login.authenticate(username, password)) {
-//			JOptionPane.showMessageDialog(null,
-//					"! You have successfully logged in.", "Login",
-//					JOptionPane.INFORMATION_MESSAGE);
+			// JOptionPane.showMessageDialog(null,
+			// "! You have successfully logged in.", "Login",
+			// JOptionPane.INFORMATION_MESSAGE);
 			JOptionPane.showMessageDialog(null,
 					"! You have successfully logged in.", "Login",
 					JOptionPane.INFORMATION_MESSAGE);
 			card.show(container, "" + 3);
-			this.launchGUI.clubSearchView.updatable();;
+			this.launchGUI.clubSearchView.updatable();
+			;
 			this.launchGUI.clubSearchView.clear();
 			this.launchGUI.playerSearchView.clear();
 			this.launchGUI.gameView.clear();
+			LaunchGUI.isAdmin = true;
 			launchGUI.setTitle("Version 1.0");
-			
+
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"Administrator name and password do not match!", "ALERT!",

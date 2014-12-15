@@ -161,6 +161,22 @@ public class DBQuerier {
 		playerList = resultSetToPlayerList(rs);
 		return playerList;
 	}
+	
+	public String getPlayerPosition(String club, int squadNumber) throws SQLException {
+		String position = null;
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select position from player where club = ? and squad_number = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setString(1, club);
+		pstatement.setInt(2, squadNumber);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		while (rs.next()) {
+			position = rs.getString(1);
+		}
+		return position;
+	}
 
 	public double getClubAverageAge(String club) throws SQLException {
 		double averageAge = 0;
@@ -266,6 +282,17 @@ public class DBQuerier {
 
 		return rs;
 	}
+	
+	public ResultSet getPlayerStatisticsByGameId(int gameId) throws SQLException {
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select * from PlayerStatistics where gameId = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setInt(1, gameId);
+		pstatement.execute();
+
+		ResultSet rs = pstatement.getResultSet();
+		return rs;
+	}
 
 	public boolean isEqual(String str1, String str2) {
 		if (str1 == null) {
@@ -362,7 +389,6 @@ public class DBQuerier {
 			ages = age.split("\\<");
 			minAge = "0";
 			maxAge = ages[1];
-			System.out.println("*****" + maxAge);
 			intAges[0] = Integer.parseInt(minAge);
 			intAges[1] = Integer.parseInt(maxAge.trim()) - 1;
 

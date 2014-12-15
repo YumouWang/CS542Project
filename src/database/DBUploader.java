@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import parser.PlayerStatisticsParser;
 import parser.TeamPerformanceParser;
 import entity.Club;
 import entity.Game;
@@ -112,7 +113,7 @@ public class DBUploader {
 		return true;
 	}
 
-	public static boolean insertTeamPerformance(
+	public boolean insertTeamPerformance(
 			List<List<String>> teamPerformanceList) throws SQLException {
 		Connection conn = DBConnector.getInstance().getConn();
 		for (List<String> teamPerformance : teamPerformanceList) {
@@ -123,8 +124,8 @@ public class DBUploader {
 			// System.out.println(gameId + "," + team);
 			String sql = "insert into teamPerformance values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			PreparedStatement pstatement = conn.prepareStatement(sql);
-			pstatement.setInt(1, Integer.parseInt(teamPerformance.get(0))); // set parameter 1 (playerName)
-			pstatement.setString(2, teamPerformance.get(1)); // set parameter 2 (position)
+			pstatement.setInt(1, Integer.parseInt(teamPerformance.get(0))); // set parameter 1 
+			pstatement.setString(2, teamPerformance.get(1)); // set parameter 2 
 			pstatement.setInt(3, Integer.parseInt(teamPerformance.get(2)));
 			pstatement.setInt(4, Integer.parseInt(teamPerformance.get(3)));
 			pstatement.setInt(5, Integer.parseInt(teamPerformance.get(4)));
@@ -143,11 +144,43 @@ public class DBUploader {
 		}
 		return true;
 	}
+	
+	public boolean insertPlayerStatistics(List<List<String>> playerStatisticsList) throws SQLException {
+		Connection conn = DBConnector.getInstance().getConn();
+		for (List<String> playerStatistics : playerStatisticsList) {
+
+			// System.out.println(gameId + "," + team);
+			String sql = "insert into PlayerStatistics values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			PreparedStatement pstatement = conn.prepareStatement(sql);
+			pstatement.setInt(1, Integer.parseInt(playerStatistics.get(0))); // set parameter 1
+			pstatement.setString(2, playerStatistics.get(1)); // set parameter 2
+			pstatement.setInt(3, Integer.parseInt(playerStatistics.get(2)));
+			pstatement.setString(4, playerStatistics.get(3));
+			pstatement.setInt(5, Integer.parseInt(playerStatistics.get(4)));
+			pstatement.setInt(6, Integer.parseInt(playerStatistics.get(5)));
+			pstatement.setInt(7, Integer.parseInt(playerStatistics.get(6)));
+			pstatement.setInt(8, Integer.parseInt(playerStatistics.get(7)));
+			pstatement.setInt(9, Integer.parseInt(playerStatistics.get(8)));
+			pstatement.setInt(10, Integer.parseInt(playerStatistics.get(9)));
+			pstatement.setInt(11, Integer.parseInt(playerStatistics.get(10)));
+			pstatement.setFloat(12, Float.parseFloat(playerStatistics.get(11)));
+			pstatement.execute();
+		}
+		return true;
+	}
 
 	public static void main(String[] args) throws SQLException {
 		TeamPerformanceParser t = new TeamPerformanceParser();
 		System.out.println(t.parse().size());
-		boolean i = insertTeamPerformance(t.parse());
+		
+		PlayerStatisticsParser p = new PlayerStatisticsParser();
+		System.out.println(p.parse().size() + "//");
+		for(List<String> list : p.parse()) {
+			for(String str : list) {
+				System.out.print(str + ",");
+			}
+			System.out.println();
+		}
 	}
 
 }

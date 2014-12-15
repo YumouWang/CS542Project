@@ -2,9 +2,13 @@ package view;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -16,6 +20,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import common.Club;
+import common.Constants;
+import common.PlayerPosition;
+
+import database.DBUpdater;
 import entity.Player;
 
 public class PlayerView extends JFrame {
@@ -24,7 +33,7 @@ public class PlayerView extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	public JPanel contentPane;
 	private JTextField textFieldPlayerName;
 	private JTextField textFieldAge;
 	private JTextField textFieldPosition;
@@ -34,6 +43,8 @@ public class PlayerView extends JFrame {
 	private JTextField textFieldSquadNumber;
 	private JLabel picLabel;
 	private JButton btnUpdate;
+
+	LaunchGUI launchGUI;
 
 	/**
 	 * @return the textFieldPlayerName
@@ -101,7 +112,8 @@ public class PlayerView extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PlayerView frame = new PlayerView();
+					LaunchGUI launchGUI = new LaunchGUI();
+					PlayerView frame = new PlayerView(launchGUI);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -115,7 +127,8 @@ public class PlayerView extends JFrame {
 	 * 
 	 * @throws IOException
 	 */
-	public PlayerView() throws IOException {
+	public PlayerView(final LaunchGUI launchGUI) throws IOException {
+		this.launchGUI = launchGUI;
 		setTitle("Player Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 391, 298);
@@ -195,14 +208,50 @@ public class PlayerView extends JFrame {
 		textFieldSquadNumber.setEditable(false);
 		contentPane.add(textFieldSquadNumber);
 
-		// label = new JLabel("Pic");
-		// label.setBounds(205, 135, 100, 50);
-		// label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		// label.setBackground(Color.LIGHT_GRAY);
-		// label.setOpaque(true);
-		// contentPane.add(label);
-		// addPicture();
+		btnUpdate = new JButton("Update");
+		btnUpdate.setBounds(100, 200, Constants.BUTTON_WIDTH - 80,
+				Constants.BUTTON_HEIGHT - 10);
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 
+		btnUpdate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (textFieldPlayerName.getText().equals(null)) {
+					// cannot update
+				} else {
+					// update
+					String playerName = textFieldPlayerName.getText()
+							.toString();
+					int age = Integer.parseInt(textFieldAge.getText());
+					String position = textFieldPosition.getText().toString();
+					String country = textFieldCountry.getText().toString();
+					String club = textFieldClub.getText().toString();
+					int height = Integer.parseInt(textFieldHeight.getText());
+					int squadNumber = Integer.parseInt(textFieldSquadNumber
+							.getText());
+					DBUpdater dbUpdater = new DBUpdater();
+					try {
+						dbUpdater.updatePlayer(playerName, position, age,
+								country, squadNumber, club, height);
+
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+
+			}
+		});
+
+		if (launchGUI.isAdmin) {
+			contentPane.add(btnUpdate);
+			btnUpdate.setVisible(true);
+			textFieldPosition.setEditable(true);
+			textFieldClub.setEditable(true);
+			textFieldSquadNumber.setEditable(true);
+		} else {
+			btnUpdate.setVisible(false);
+		}
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
@@ -225,7 +274,8 @@ public class PlayerView extends JFrame {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		};
+		}
+		;
 		try {
 			playerPic = ImageIO.read(new File("pic/" + str + ".jpg"));
 		} catch (IOException e) {
@@ -243,5 +293,31 @@ public class PlayerView extends JFrame {
 			picLabel.setOpaque(true);
 			getContentPane().add(picLabel);
 		}
+	}
+
+	public boolean isValidUpdate(String position, String club, int squadNumber) {
+		boolean isValid = false;
+		for (PlayerPosition p : PlayerPosition.values()) {
+			System.out.println(p);
+			if (p.name().equals(p)) {
+				isValid = true;
+			}
+		}
+
+		if (isValid) {
+			for (Club c : Club.values()) {
+				System.out.println(c);
+				if (c.name().equals(club)) {
+					isValid = true;
+				}
+			}
+
+			if (isValid) {
+				if (squadNumber > 0) {
+					isValid = true;
+				}
+			}
+		}
+		return isValid;
 	}
 }
