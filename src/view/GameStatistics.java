@@ -357,7 +357,7 @@ public class GameStatistics extends JFrame {
 		contentPane.add(lblRight14);
 	}
 	
-	public void paint (Graphics g) {
+	public void paint(Graphics g) {
 		g.setColor(Color.RED);
 		g.drawRect(100, 100, 100, 20); 
 	    g.fillRect(100, 100, 100, 20); 

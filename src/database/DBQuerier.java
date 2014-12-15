@@ -293,6 +293,17 @@ public class DBQuerier {
 		ResultSet rs = pstatement.getResultSet();
 		return rs;
 	}
+	
+	public ResultSet getLoginInfo(String username, String password) throws SQLException {
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select * from Admin where username = ? and password = ?";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+		pstatement.setString(1, username);
+		pstatement.setString(2, password);
+		pstatement.execute();
+		ResultSet rs = pstatement.getResultSet();
+		return rs;
+	}
 
 	public boolean isEqual(String str1, String str2) {
 		if (str1 == null) {
