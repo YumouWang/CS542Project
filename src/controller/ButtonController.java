@@ -52,16 +52,16 @@ public class ButtonController implements ActionListener {
 				}
 				if (club != null) {
 					clubSearchView.getTextFieldClubName().setText(
-							club.getClubName());
+							club.getClubName().trim());
 					clubSearchView.getTextFieldHomeStaduim().setText(
-							club.getHomeStadium());
-					clubSearchView.getTextFieldCoach().setText(club.getCoach());
+							club.getHomeStadium().trim());
+					clubSearchView.getTextFieldCoach().setText(club.getCoach().trim());
 					clubSearchView.getTextFieldRanking().setText(
-							String.valueOf(club.getRanking()));
+							String.valueOf(club.getRanking()).trim());
 					clubSearchView.getTextFieldAverageAge().setText(
-							Double.toString(averageAge));
+							Double.toString(averageAge).trim());
 					clubSearchView.getTextFieldAverageHeight().setText(
-							Double.toString(averageHeight));
+							Double.toString(averageHeight).trim());
 
 				} else {
 					clubSearchView.getTextFieldClubName().setText(null);
@@ -173,7 +173,7 @@ public class ButtonController implements ActionListener {
 				clubSearchView.getTable().setValueAt(player.getSquad_number(),
 						i, 0);
 				clubSearchView.getTable().setValueAt(
-						player.getName().toString(), i, 1);
+						player.getName().toString().trim(), i, 1);
 				i++;
 			}
 			clubSearchView.getTable().updateUI();

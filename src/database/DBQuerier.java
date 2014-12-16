@@ -101,7 +101,7 @@ public class DBQuerier {
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from player where club = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, club.toLowerCase());
+		pstatement.setString(1, addSpace(club));
 		pstatement.execute();
 
 		ResultSet rs = pstatement.getResultSet();
@@ -167,7 +167,7 @@ public class DBQuerier {
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select position from player where club = ? and squad_number = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, club);
+		pstatement.setString(1, addSpace(club));
 		pstatement.setInt(2, squadNumber);
 		pstatement.execute();
 
@@ -191,7 +191,7 @@ public class DBQuerier {
 		 * index 1 : Club name index 2 : Players average age
 		 */
 		while (rs.next()) {
-			if (rs.getString(1).equalsIgnoreCase(club)) {
+			if (rs.getString(1).trim().equalsIgnoreCase(club)) {
 				averageAge = (double) (Math.round(rs.getDouble(2) * 100) / 100.0);
 			}
 		}
@@ -211,7 +211,7 @@ public class DBQuerier {
 		 * index 1 : Club name index 2 : Players average height
 		 */
 		while (rs.next()) {
-			if (rs.getString(1).equalsIgnoreCase(club)) {
+			if (rs.getString(1).trim().equalsIgnoreCase(club)) {
 				averageHeight = (double) (Math.round(rs.getDouble(2) * 100) / 100.0);
 			}
 		}
@@ -222,9 +222,10 @@ public class DBQuerier {
 		Club club = null;
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from club where clubname = ?";
+		
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, clubName);
-		pstatement.execute();
+		pstatement.setString(1, addSpace(clubName));
+		pstatement.executeQuery();
 
 		ResultSet rs = pstatement.getResultSet();
 		if (rs.next()) {
@@ -242,9 +243,9 @@ public class DBQuerier {
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select GameId from game where homeTeam = ? and awayTeam = ? and gameDate = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, homeTeam);
-		pstatement.setString(2, awayTeam);
-		pstatement.setString(3, gameDate);
+		pstatement.setString(1, addSpace(homeTeam));
+		pstatement.setString(2, addSpace(awayTeam));
+		pstatement.setString(3, addSpaceToDate(gameDate));
 		pstatement.execute();
 
 		ResultSet rs = pstatement.getResultSet();
@@ -260,13 +261,11 @@ public class DBQuerier {
 		String sql = "select * from teamPerformance where gameId = ? and team = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
 		pstatement.setInt(1, id);
-		pstatement.setString(2, team);
+		pstatement.setString(2, addSpace(team));
 		pstatement.execute();
 
 		ResultSet rs = pstatement.getResultSet();
-		if (rs.next()) {
 
-		}
 		return rs;
 	}
 
@@ -274,8 +273,8 @@ public class DBQuerier {
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from game where HomeTeam = ? or AwayTeam = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, team);
-		pstatement.setString(2, team);
+		pstatement.setString(1, addSpace(team));
+		pstatement.setString(2, addSpace(team));
 		pstatement.execute();
 
 		ResultSet rs = pstatement.getResultSet();
@@ -418,4 +417,53 @@ public class DBQuerier {
 		}
 		return intAges;
 	}
+	
+	public String addSpace(String str) {
+		int length = str.length();
+		for(int i = 0; i < 50 - length; i++) {
+			str = str + " ";
+		}	
+		return str;
+	}
+	
+	public String addSpaceToDate(String str) {
+		int length = str.length();
+		for(int i = 0; i < 20 - length; i++) {
+			str = str + " ";
+		}	
+		return str;
+	}
+	
+	public void test() throws SQLException {
+		Connection conn = DBConnector.getInstance().getConn();
+		String sql = "select * from game";
+		PreparedStatement pstatement = conn.prepareStatement(sql);
+//		pstatement.setString(1, username);
+//		pstatement.setString(2, password);
+		pstatement.execute();
+		ResultSet rs = pstatement.getResultSet();
+		while(rs.next()) {
+			System.out.println(rs.getInt(1) + rs.getString(2) + rs.getString(3) + rs.getString(4) + "!!");
+		}
+	}
+	
+	public static void main(String[] args) throws SQLException {
+		String str = "Barcelona";
+		DBQuerier d = new DBQuerier();
+		Club club = null;
+		ResultSet rs = null;
+		try {
+			rs = d.getGameByTeam(str);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		while(rs.next()) {
+			System.out.println(rs.getInt(1));
+		}
+		
+		d.test();
+
+	}
+	
 }

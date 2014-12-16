@@ -123,6 +123,7 @@ public class GameView extends JFrame {
 				int gameId = 0;
 				try {
 					gameId = dbQuerier.getGameId(homeTeam, awayTeam, gameDate);
+					System.out.println(gameId + "," + homeTeam + "," + awayTeam + "," + gameDate + "///////");
 				} catch (SQLException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -131,7 +132,7 @@ public class GameView extends JFrame {
 					if(homeTeam != null) {
 						rs = dbQuerier.getTeamDataByGameId(gameId, homeTeam);
 					}
-					if(rs != null) {
+					if(rs.next()) {
 						launchGUI.gameStatistics.lblLeft1.setText(String.valueOf(rs.getInt(3)));
 						launchGUI.gameStatistics.lblLeft2.setText(String.valueOf(rs.getInt(4)));
 						launchGUI.gameStatistics.lblLeft3.setText(String.valueOf(rs.getInt(5)));
@@ -146,7 +147,7 @@ public class GameView extends JFrame {
 						launchGUI.gameStatistics.lblLeft12.setText(String.valueOf(rs.getInt(14)));
 						launchGUI.gameStatistics.lblLeft13.setText(String.valueOf(rs.getInt(15)));
 						launchGUI.gameStatistics.lblLeft14.setText(String.valueOf(rs.getInt(16)));
-						launchGUI.gameStatistics.lblLeft15.setText(rs.getString(2));
+						launchGUI.gameStatistics.lblLeft15.setText(rs.getString(2).trim());
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -157,7 +158,7 @@ public class GameView extends JFrame {
 						rs = dbQuerier.getTeamDataByGameId(gameId, awayTeam);
 					}
 					
-					if(rs != null) {
+					if(rs.next()) {
 						launchGUI.gameStatistics.lblRight1.setText(String.valueOf(rs.getInt(3)));
 						launchGUI.gameStatistics.lblRight2.setText(String.valueOf(rs.getInt(4)));
 						launchGUI.gameStatistics.lblRight3.setText(String.valueOf(rs.getInt(5)));
@@ -172,7 +173,7 @@ public class GameView extends JFrame {
 						launchGUI.gameStatistics.lblRight12.setText(String.valueOf(rs.getInt(14)));
 						launchGUI.gameStatistics.lblRight13.setText(String.valueOf(rs.getInt(15)));
 						launchGUI.gameStatistics.lblRight14.setText(String.valueOf(rs.getInt(16)));
-						launchGUI.gameStatistics.lblRight15.setText(rs.getString(2));
+						launchGUI.gameStatistics.lblRight15.setText(rs.getString(2).trim());
 					}
 					
 				} catch (SQLException e1) {
@@ -332,7 +333,7 @@ public class GameView extends JFrame {
 				btnPlayerStatistics.setEnabled(false);;
 				try {
 					if(comboBoxHomeTeam.getSelectedIndex() > -1) {
-						rs = dbQuerier.getGameByTeam(comboBoxHomeTeam.getSelectedItem().toString().toLowerCase());
+						rs = dbQuerier.getGameByTeam(comboBoxHomeTeam.getSelectedItem().toString());
 					}
 					if(rs != null) {
 						updateTable(rs);
@@ -355,7 +356,7 @@ public class GameView extends JFrame {
 	}
 	
 	private JTable setTable() {
-		String[] columnNames = { "Home Team", "Away Team", "Date of Game" };
+		String[] columnNames = {"Home Team", "Away Team", "Date of Game"};
 		cellData = new String[10][3];
 		int i;
 		for (i = 0; i < 10; i++) {
@@ -411,9 +412,9 @@ public class GameView extends JFrame {
 			int i = 0;
 			try {
 				while (rs.next()) {
-					getTable().setValueAt(rs.getString(2), i, 0);
-					getTable().setValueAt(rs.getString(3), i, 1);
-					getTable().setValueAt(rs.getString(4), i, 2);
+					getTable().setValueAt(rs.getString(2).trim(), i, 0);
+					getTable().setValueAt(rs.getString(3).trim(), i, 1);
+					getTable().setValueAt(rs.getString(4).trim(), i, 2);
 					i++;
 				}
 			} catch (SQLException e) {

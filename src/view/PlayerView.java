@@ -256,13 +256,13 @@ public class PlayerView extends JFrame {
 	}
 
 	public void setPlayerView(Player player) {
-		textFieldPlayerName.setText(player.getName());
-		textFieldAge.setText(String.valueOf(player.getAge()));
-		textFieldPosition.setText(player.getPosition());
-		textFieldClub.setText(player.getClub());
-		textFieldHeight.setText(String.valueOf(player.getHeight()));
-		textFieldSquadNumber.setText(String.valueOf(player.getSquad_number()));
-		textFieldCountry.setText(player.getCountry());
+		textFieldPlayerName.setText(player.getName().trim());
+		textFieldAge.setText(String.valueOf(player.getAge()).trim());
+		textFieldPosition.setText(player.getPosition().trim());
+		textFieldClub.setText(player.getClub().trim());
+		textFieldHeight.setText(String.valueOf(player.getHeight()).trim());
+		textFieldSquadNumber.setText(String.valueOf(player.getSquad_number()).trim());
+		textFieldCountry.setText(player.getCountry().trim());
 	}
 
 	public void addPicture(String playerName) {
