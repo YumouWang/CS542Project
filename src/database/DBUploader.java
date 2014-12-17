@@ -41,7 +41,6 @@ public class DBUploader {
 
 			} else {
 				System.out.println("Invalid data!");
-
 			}
 		}
 		return true;

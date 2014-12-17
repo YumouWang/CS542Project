@@ -46,11 +46,11 @@ public class DBUploaderMain {
 //			e.printStackTrace();
 //		}
 
-//		try {
-//			dbUploader.insertGameData(gameList);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			dbUploader.insertGameData(gameList);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		
 //		try {
@@ -59,10 +59,10 @@ public class DBUploaderMain {
 //			e.printStackTrace();
 //		}
 		
-		try {
-			dbUploader.insertPlayerStatistics(playerStatisticsParser.parse());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			dbUploader.insertPlayerStatistics(playerStatisticsParser.parse());
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 }

@@ -49,15 +49,15 @@ public class PlayerParser {
 		                	if(cell.getCellType() == XSSFCell.CELL_TYPE_NUMERIC) {
 		                		int value = (int) cell.getNumericCellValue();
 		                		str[i] = Integer.toString(value);
-		                		//System.out.print(value + ",  ");
+		                		System.out.print(value + ",  " + "\t");
 		                	} else {
 		                		str[i] = cell.getStringCellValue();
-		                		//System.out.print(str[i] + ",  ");
+		                		System.out.print(str[i] + ",  " + "\t");
 		                	}
 		                	i++;
 		                }
 		            }
-		            //System.out.println("");
+		            System.out.println("");
 		            Player player = new Player(str[0], str[1], Integer.parseInt(str[2]), str[3], Integer.parseInt(str[4]), str[5], Integer.parseInt(str[6]));
 		            playerList.add(player);
 		        }
@@ -66,6 +66,11 @@ public class PlayerParser {
 		    System.out.println(e);
 		}
 		return playerList;      
+	}
+	
+	public static void main(String[] args) {
+		PlayerParser p = new PlayerParser();
+		p.parse();
 	}
 	
 }

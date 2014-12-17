@@ -297,8 +297,8 @@ public class DBQuerier {
 		Connection conn = DBConnector.getInstance().getConn();
 		String sql = "select * from Admin where username = ? and password = ?";
 		PreparedStatement pstatement = conn.prepareStatement(sql);
-		pstatement.setString(1, username);
-		pstatement.setString(2, password);
+		pstatement.setString(1, addSpaceToDate(username));
+		pstatement.setString(2, addSpaceToDate(password));
 		pstatement.execute();
 		ResultSet rs = pstatement.getResultSet();
 		return rs;
@@ -447,23 +447,15 @@ public class DBQuerier {
 		}
 	}
 	
-	public static void main(String[] args) throws SQLException {
-		String str = "Barcelona";
-		DBQuerier d = new DBQuerier();
-		Club club = null;
-		ResultSet rs = null;
-		try {
-			rs = d.getGameByTeam(str);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		while(rs.next()) {
-			System.out.println(rs.getInt(1));
-		}
-		
-		d.test();
-
-	}
-	
+//	public static void main(String[] args) throws SQLException {
+//		DBQuerier d = new DBQuerier();
+//		ResultSet rs = null;
+//		rs = d.getLoginInfo("admin", "1216985755");
+//		 if( rs != null ){
+//			 System.out.println("," );
+//             while (rs.next()) {
+//     			System.out.println(rs.getString(1) + "," + rs.getString(2));
+//             }
+//		 }
+//	}
 }
